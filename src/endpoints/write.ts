@@ -1,0 +1,41 @@
+import { Request, Response, RequestHandler } from 'express';
+import PrinterManager from '../printer-manager';
+import { WriteRequestBody, WriteResponseBody } from '../../types';
+
+export default function writeEndpoint(manager: PrinterManager): RequestHandler {
+  return async (
+    req: Request<unknown, unknown, WriteRequestBody>,
+    res: Response<WriteResponseBody | { error: string }>
+  ) => {
+    try {
+      const body = req.body || {};
+
+      const parseIfString: WriteRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
+
+      const { data, printer } = parseIfString;
+
+      if (!data || typeof data !== 'string') {
+        return res
+          .status(400)
+          .json({ error: 'Missing "data" (string) in request body.' });
+      }
+
+      const jobId = await manager.sendRaw(printer ?? 'default', data);
+
+      res.json({
+        success: true,
+        jobId,
+        printer: printer || 'default',
+        message: 'Print job submitted',
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({
+        success: false,
+        error: e.message || 'Print failed',
+        message: e.message,
+        timestamp: new Date().toISOString(),
+      } as any);
+    }
+  };
+}

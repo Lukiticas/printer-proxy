@@ -1,0 +1,46 @@
+{
+  "name": "elgin-printer-proxy",
+  "version": "1.0.0",
+  "description": "HTTP proxy for Elgin thermal printers",
+  "main": "server.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "build:ts": "tsc -p tsconfig.json",
+    "build:exe": "npm run build:ts && pkg dist/server.js --targets node18-win-x64 --output dist/elgin-printer-proxy.exe",
+    "dev": "nodemon server.ts",
+    "start": "node dist/server.js",
+    "install-service": "ts-node service/install-service.ts",
+    "uninstall-service": "ts-node service/uninstall-service.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "node-windows": "^1.0.0-beta.8",
+    "nodemon": "^3.1.10",
+    "pkg": "^5.8.1",
+    "rimraf": "^5.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@grandchef/node-printer": "^0.8.0",
+    "@mapbox/node-pre-gyp": "^2.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "node-thermal-printer": "^4.5.0"
+  },
+  "pkg": {
+    "assets": [
+      "config/**/*"
+    ]
+  }
+}
