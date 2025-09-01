@@ -4,9 +4,10 @@ import {
   DefaultPrinterResponse,
   SetDefaultPrinterRequest,
   SetDefaultPrinterResponse,
-} from '../../types';
+} from '../types';
+import { loggers } from '../logging/logger';
 
-const handleGet = async (req: Request, res: Response, manager: PrinterManager) => {
+const handleGet = async (_req: Request, res: Response, manager: PrinterManager) => {
       try {
         const printer = await manager.getDefaultResolved();
     
@@ -17,6 +18,8 @@ const handleGet = async (req: Request, res: Response, manager: PrinterManager) =
 
         return res.json(body);
       } catch (e: any) {
+        loggers.api.error('GetDefaultFailed', { error: e.message });
+
         return res.status(500).json({
           error: e.message || 'Internal error',
           timestamp: new Date().toISOString(),
@@ -29,6 +32,8 @@ const handlePost = async (req: Request, res: Response, manager: PrinterManager) 
 
       try {
         if (!body?.name) {
+          loggers.api.error('SetDefaultFailed', { error: 'Missing "name" in body' });
+
           return res.status(400).json({
             success: false,
             error: 'Missing "name" in body',
@@ -48,6 +53,8 @@ const handlePost = async (req: Request, res: Response, manager: PrinterManager) 
           timestamp: new Date().toISOString(),
         } as SetDefaultPrinterResponse);
       } catch (e: any) {
+        loggers.api.error('SetDefaultFailed', { error: e.message });
+
         return res.status(400).json({
           success: false,
           error: e.message || 'Failed to set default',
@@ -56,14 +63,24 @@ const handlePost = async (req: Request, res: Response, manager: PrinterManager) 
       }
 };
 
-const handleDelete = async (req: Request, res: Response, manager: PrinterManager) => {
-  manager.clearPinnedDefault();
+const handleDelete = async (_req: Request, res: Response, manager: PrinterManager) => {
+  try {
+    manager.clearPinnedDefault();
+    
+    return res.json({
+      success: true,
+      message: 'Pinned default cleared',
+      timestamp: new Date().toISOString(),
+    });
+  } catch (e: any) {
+    loggers.api.error('ClearDefaultFailed', { error: e.message });
 
-  return res.json({
-    success: true,
-    message: 'Pinned default cleared',
-    timestamp: new Date().toISOString(),
-  });
+    return res.status(500).json({
+      success: false,
+      error: e.message || 'Failed to clear default',
+      timestamp: new Date().toISOString(),
+    });
+  }
 };
 
 const forwardHandler = (req: Request, res: Response, manager: PrinterManager) => {
@@ -79,6 +96,7 @@ const forwardHandler = (req: Request, res: Response, manager: PrinterManager) =>
     return handleDelete(req, res, manager);
   }
 
+  loggers.api.error('MethodNotAllowed', { method: req.method });
   return res.status(405).json({ error: 'Method not allowed' });
 };
 

@@ -1,7 +1,8 @@
 import { Request, Response, RequestHandler } from 'express';
 import PrinterManager from '../printer-manager';
-import { AvailablePrintersResponse } from '../../types';
+import { AvailablePrintersResponse } from '../types';
 import pkg from '../../package.json';
+import { loggers } from '../logging/logger';
 
 export default function availableEndpoint(manager: PrinterManager): RequestHandler {
   return async (_req: Request, res: Response<AvailablePrintersResponse | { error: string }>) => {
@@ -22,6 +23,7 @@ export default function availableEndpoint(manager: PrinterManager): RequestHandl
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {
+      loggers.api.error('AvailableFailed', { error: e.message });
       res.status(500).json({ error: e.message || 'Internal error' });
     }
   };

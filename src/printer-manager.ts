@@ -3,15 +3,18 @@ import {
   DiscoveredPrinter,
   BasicPrinterStatus,
   StoredDefaultPrinter
-} from '../types';
+} from './types';
 import { DefaultPrinterStore } from './default-printer-store';
 import pkg from '../package.json'
+import { loggers } from './logging/logger';
+import crypto from 'crypto';
 
 export default class PrinterManager {
   private cache: DiscoveredPrinter[] = [];
   private lastRefresh = 0;
   private readonly refreshIntervalMs = 15_000;
   private store: DefaultPrinterStore;
+  private truncBytes = Number(process.env.PRINT_LOG_TRUNCATE_BYTES || '512');
 
   constructor(store?: DefaultPrinterStore) {
     this.store = store || new DefaultPrinterStore();
@@ -43,8 +46,15 @@ export default class PrinterManager {
           origin: pkg.name,
         }));
 
+        loggers.printing.info('EnumeratedPrinters', {
+          count: this.cache.length,
+          names: this.cache.map(p => p.name),
+        });
+
         resolve(mapped);
-      } catch (err) {
+      } catch (err: any) {
+        loggers.printing.error('EnumerateFailed', { error: err.message });
+
         reject(err);
       }
     });
@@ -150,13 +160,42 @@ export default class PrinterManager {
 
     const target = this.resolve(printerName);
 
+    const rawBuffer = Buffer.isBuffer(data) ? data : Buffer.from(data, 'utf8');
+    const hash = crypto.createHash('md5').update(rawBuffer).digest('hex');
+    const preview = rawBuffer.length > this.truncBytes
+      ? rawBuffer.slice(0, this.truncBytes).toString('latin1') + '...[truncated]'
+      : rawBuffer.toString('latin1');
+
+    loggers.printing.info('PrintDispatch', {
+      printer: target,
+      bytes: rawBuffer.length,
+      md5: hash,
+      preview,
+    });
+
     return new Promise<string>((resolve, reject) => {
       printerLib.printDirect({
-        data,
+        data: rawBuffer,
         printer: target,
         type: 'RAW',
-        success: (jobId) => resolve(String(jobId)),
-        error: (err) => reject(err),
+        success: (jobId) => {
+          loggers.printing.info('PrintSuccess', {
+            printer: target,
+            jobId: String(jobId),
+            md5: hash,
+          });
+
+          resolve(String(jobId));
+        },
+        error: (err) => {
+          loggers.printing.error('PrintError', {
+            printer: target,
+            error: err.message,
+            md5: hash,
+          });
+
+          reject(err);
+        },
       });
     });
   }
@@ -166,8 +205,8 @@ export default class PrinterManager {
 
     return {
       online: true,
-      message: 'Command dispatched (no synchronous status from driver)',
-      raw: undefined,
+      message: 'Command dispatched',
+      raw: command,
     };
   }
 }

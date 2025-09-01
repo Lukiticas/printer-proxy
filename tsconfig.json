@@ -20,7 +20,7 @@
   "include": [
     "server.ts",
     "src/**/*",
-    "service/**/*",
+    "src/service/**/*",
     "config/**/*"
   ],
   "exclude": [

@@ -1,6 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
 import PrinterManager from '../printer-manager';
-import { WriteRequestBody, WriteResponseBody } from '../../types';
+import { WriteRequestBody, WriteResponseBody } from '../types';
+import { loggers } from '../logging/logger';
 
 export default function writeEndpoint(manager: PrinterManager): RequestHandler {
   return async (
@@ -15,6 +16,8 @@ export default function writeEndpoint(manager: PrinterManager): RequestHandler {
       const { data, printer } = parseIfString;
 
       if (!data || typeof data !== 'string') {
+        loggers.api.error('PrintFailed', { error: 'Missing "data" (string) in body' });
+
         return res
           .status(400)
           .json({ error: 'Missing "data" (string) in request body.' });
@@ -30,6 +33,8 @@ export default function writeEndpoint(manager: PrinterManager): RequestHandler {
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {
+      loggers.api.error('PrintFailed', { error: e.message });
+
       res.status(500).json({
         success: false,
         error: e.message || 'Print failed',

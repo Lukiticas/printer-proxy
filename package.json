@@ -36,11 +36,20 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
-    "node-thermal-printer": "^4.5.0"
+    "node-thermal-printer": "^4.5.0",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "pkg": {
     "assets": [
       "config/**/*"
+    ]
+  },
+    "nodemonConfig": {
+      "ignore": [
+       "logs/*",
+       "data/*"
     ]
   }
 }

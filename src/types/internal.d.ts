@@ -1,4 +1,4 @@
-import pkg from '../package.json';
+import pkg from '../../package.json';
 
 export type DeviceConnectionType = 'USB' | 'Network' | 'System' | 'Driver' | 'Unknown';
 
@@ -89,8 +89,9 @@ export interface ReadResponseBody {
 }
 
 export interface HealthResponse {
-  status: 'running';
+  status: 'running' | 'error';
   uptimeSeconds: number;
   timestamp: string;
   version?: string;
+  error?: string;
 }

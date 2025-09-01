@@ -1,12 +1,13 @@
 import path from 'path';
+import { loggers } from '../logging/logger';
 
 let Service: any;
 
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   Service = require('node-windows').Service;
-} catch {
-  console.error('node-windows not available on this platform.');
+} catch (err: any) {
+  loggers.main.error('NodeWindowsNotAvailable', { error: err.message });
   process.exit(1);
 }
 
@@ -18,12 +19,12 @@ const svc = new Service({
 });
 
 svc.on('install', () => {
-  console.log('Service installed');
+  loggers.main.info('ServiceInstalled', { name: svc.name });
   svc.start();
 });
 
-svc.on('alreadyinstalled', () => console.log('Service already installed'));
-svc.on('start', () => console.log('Service started'));
-svc.on('error', (err: any) => console.error('Service error:', err));
+svc.on('alreadyinstalled', () => loggers.main.warn('ServiceAlreadyInstalled', { name: svc.name }));
+svc.on('start', () => loggers.main.info('ServiceStarted', { name: svc.name }));
+svc.on('error', (err: any) => loggers.main.error('ServiceError', { error: err.message }));
 
 svc.install();

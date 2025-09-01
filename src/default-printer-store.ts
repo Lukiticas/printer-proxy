@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { LoadedDefault, StoredDefaultPrinter } from '../types';
+import { LoadedDefault, StoredDefaultPrinter } from './types';
+import { loggers } from './logging/logger';
 
 export class DefaultPrinterStore {
   private filePath: string;
@@ -15,10 +16,16 @@ export class DefaultPrinterStore {
   }
 
   ensureDir(): void {
-    const dir = path.dirname(this.filePath);
+    try {
+      const dir = path.dirname(this.filePath);
 
-    if (!fs.existsSync(dir)) {
+      if (fs.existsSync(dir)) {
+        return
+      }
+
       fs.mkdirSync(dir, { recursive: true });
+    } catch (e: any) {
+      loggers.printing.error('EnsurePrinterStoreDirFailed', { error: e.message });
     }
   }
 
@@ -35,15 +42,22 @@ export class DefaultPrinterStore {
         };
       }
 
-      return { record, stale: false };
+      return {
+        record,
+        stale: false
+      };
     } catch (e: any) {
       if (e.code === 'ENOENT') {
+        loggers.printing.warn('PrinterStoreNotFound', { error: e.message });
+
         return {
           record: null,
           stale: false,
           reason: 'No file'
         };
       }
+
+      loggers.printing.error('PrinterStoreCorrupt', { error: e.message });
 
       return {
         record: null,
@@ -54,25 +68,30 @@ export class DefaultPrinterStore {
   }
 
   save(record: StoredDefaultPrinter): void {
-    this.ensureDir();
-
-    const tmp = this.filePath + '.tmp';
-
-    fs.writeFileSync(tmp, JSON.stringify(record, null, 2), 'utf8');
-    fs.renameSync(tmp, this.filePath);
-
     try {
+      this.ensureDir();
+
+      const tmp = this.filePath + '.tmp';
+
+      fs.writeFileSync(tmp, JSON.stringify(record, null, 2), 'utf8');
+      fs.renameSync(tmp, this.filePath);
+
       fs.chmodSync(this.filePath, 0o600);
-    } catch {
-      /* ignore on non-POSIX FS */
+    } catch (err: any) {
+      loggers.printing.error('SavePrinterStoreFailed', { error: err.message });
     }
   }
 
   clear(): void {
     try {
+      if (!fs.existsSync(this.filePath)) {
+        loggers.printing.warn('ClearPrinterStoreNotFound', { path: this.filePath });
+        return;
+      }
+
       fs.unlinkSync(this.filePath);
-    } catch {
-      /* ignore */
+    } catch (err: any) {
+      loggers.printing.error('ClearPrinterStoreFailed', { error: err.message });
     }
   }
 }
