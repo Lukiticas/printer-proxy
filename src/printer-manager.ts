@@ -15,9 +15,15 @@ export default class PrinterManager {
   private readonly refreshIntervalMs = 15_000;
   private store: DefaultPrinterStore;
   private truncBytes = Number(process.env.PRINT_LOG_TRUNCATE_BYTES || '512');
+  private explicitDefault?: string;
 
   constructor(store?: DefaultPrinterStore) {
     this.store = store || new DefaultPrinterStore();
+  }
+
+  setExplicitDefault(name: string) {
+    this.explicitDefault = name;
+    loggers.printing.info('ExplicitDefaultSet', { name });
   }
 
   private async refresh(force = false): Promise<void> {
@@ -126,33 +132,30 @@ export default class PrinterManager {
   }
 
   private resolve(name?: string): string {
-    if (!name || name === 'default') {
-      const loaded = this.store.load();
+    if (name && name !== 'default') {
+      const found = this.cache.find(p => p.name === name);
 
-      if (loaded.record?.name) {
-        const candidate = this.cache.find((p) => p.name === loaded.record!.name);
-
-        if (candidate) {
-          return candidate.name;
-        }
+      if (!found) {
+        throw new Error(`Printer '${name}' not found`);
       }
 
-      const def = this.cache.find((p) => p.isDefault) || this.cache[0];
+      return found.name;
+    }
 
-      if (!def) {
-        throw new Error('No printers available');
+    if (this.explicitDefault) {
+      const exists = this.cache.find(p => p.name === this.explicitDefault);
+      if (exists) {
+        return exists.name;
       }
-
-      return def.name;
     }
 
-    const found = this.cache.find((p) => p.name === name);
+    const def = this.cache.find(p => p.isDefault) || this.cache[0];
 
-    if (!found) {
-      throw new Error(`Printer '${name}' not found`);
+    if (!def) {
+      throw new Error('No printers available');
     }
 
-    return found.name;
+    return def.name;
   }
 
   async sendRaw(printerName: string | undefined, data: string): Promise<string> {

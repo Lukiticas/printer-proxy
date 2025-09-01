@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../printer-manager';
-import { ReadRequestBody, ReadResponseBody } from '../types';
-import { loggers } from '../logging/logger';
+import PrinterManager from '../../printer-manager';
+import { ReadRequestBody, ReadResponseBody } from '../../types';
+import { loggers } from '../../logging/logger';
 
 export default function readEndpoint(
   manager: PrinterManager
@@ -12,7 +12,7 @@ export default function readEndpoint(
   ) => {
     try {
       const body = req.body || {};
-      
+
       const parseIfString: ReadRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
       const { printer, command } = parseIfString;
 
@@ -27,7 +27,7 @@ export default function readEndpoint(
       });
     } catch (e: any) {
       loggers.api.error('ReadFailed', { error: e.message });
-      
+
       res.status(500).json({
         success: false,
         printer: req.body?.printer,

@@ -1,50 +1,66 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-
+import healthEndpoint from './src/endpoints/health';
 import PrinterManager from './src/printer-manager';
-import availableEndpoint from './src/endpoints/available';
-import defaultEndpoint from './src/endpoints/default';
-import writeEndpoint from './src/endpoints/write';
-import readEndpoint from './src/endpoints/read';
-import { HealthResponse } from './src/types';
 import { requestLogger } from './src/middleware/request-logger';
 import { errorHandler } from './src/middleware/error-handler';
 import { loggers, setupGlobalExceptionLogging } from './src/logging/logger';
-import healthEndpoint from './src/endpoints/health';
+import { ConfigService } from './src/config/config-service';
+import { configRouter } from './src/endpoints/config';
+import { printingRouter } from './src/endpoints/printing';
 
 const app = express();
 
-const PORT = Number(process.env.PORT || 9100);
-const HOST = process.env.HOST || 'localhost';
+async function bootstrap() {
+  setupGlobalExceptionLogging();
 
-setupGlobalExceptionLogging();
+  app.use(helmet());
+  app.use(cors());
+  app.use(bodyParser.json({ limit: '256kb' }));
+  app.use(bodyParser.text({ limit: '512kb', type: 'text/plain' }));
+  app.use(requestLogger());
 
-app.use(helmet());
-app.use(cors());
-app.use(bodyParser.json({ limit: '256kb' }));
-app.use(bodyParser.text({ limit: '512kb', type: 'text/plain' }));
-app.use(requestLogger());
+  const printerManager = new PrinterManager();
+  const configService = new ConfigService(undefined);
+  await configService.init(printerManager)
 
-const printerManager = new PrinterManager();
+  const settings = configService.get();
 
-app.get('/available', availableEndpoint(printerManager));
-app.get('/default', defaultEndpoint(printerManager));
-app.post('/default', defaultEndpoint(printerManager));
-app.delete('/default', defaultEndpoint(printerManager));
-app.post('/write', writeEndpoint(printerManager));
-app.post('/read', readEndpoint(printerManager));
-app.get('/health', healthEndpoint());
+  app.use('/', printingRouter(printerManager));
+  app.use('/config', configRouter(configService, printerManager));
+  app.get('/health', healthEndpoint());
 
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Not found', timestamp: new Date().toISOString() });
-});
+  const staticRoot = path.join(process.cwd(), 'public', 'settings');
+  app.use('/settings', express.static(staticRoot));
 
-app.use(errorHandler());
+  app.get('/', (_req, res) => {
+    res.redirect('/settings');
+  });
 
-app.listen(PORT, HOST, () => {
-  loggers.main.info(`Elgin Printer Proxy listening on http://${HOST}:${PORT}`);
+  app.use((_req, res) => {
+    res.status(404).json({ error: 'Not found', timestamp: new Date().toISOString() });
+  });
+
+  app.use(errorHandler());
+
+  const PORT = settings.port;
+  const HOST = settings.host;
+
+  app.listen(PORT, HOST, () => {
+    loggers.main.info(`Printer Proxy listening on http://${HOST}:${PORT}`, {
+      host: HOST,
+      port: PORT,
+      defaultPrinter: settings.defaultPrinter
+    });
+  });
+}
+
+bootstrap().catch(err => {
+  loggers.errors.error('BootstrapFailed', { error: err.message, stack: err.stack });
+  process.exit(1);
 });
 
 export default app;

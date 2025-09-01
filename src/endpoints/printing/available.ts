@@ -1,14 +1,14 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../printer-manager';
-import { AvailablePrintersResponse } from '../types';
-import pkg from '../../package.json';
-import { loggers } from '../logging/logger';
+import PrinterManager from '../../printer-manager';
+import { AvailablePrintersResponse } from '../../types';
+import pkg from '../../../package.json';
+import { loggers } from '../../logging/logger';
 
 export default function availableEndpoint(manager: PrinterManager): RequestHandler {
   return async (_req: Request, res: Response<AvailablePrintersResponse | { error: string }>) => {
     try {
       const printers = await manager.list();
-      
+
       res.json({
         printers: printers.map((p) => ({
           name: p.name,

@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../printer-manager';
-import { WriteRequestBody, WriteResponseBody } from '../types';
-import { loggers } from '../logging/logger';
+import PrinterManager from '../../printer-manager';
+import { WriteRequestBody, WriteResponseBody } from '../../types';
+import { loggers } from '../../logging/logger';
 
 export default function writeEndpoint(manager: PrinterManager): RequestHandler {
   return async (

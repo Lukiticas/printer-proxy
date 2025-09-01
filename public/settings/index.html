@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Printer Proxy Settings</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Printer Proxy Settings</h1>
+
+    <section class="card">
+      <h2>Connection</h2>
+      <div class="field">
+        <label for="host">Host</label>
+        <input id="host" type="text" />
+        <small class="hint">Restart required after change.</small>
+      </div>
+      <div class="field">
+        <label for="port">Port</label>
+        <input id="port" type="number" min="1" max="65535" />
+        <small class="hint">Restart required after change.</small>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Default Printer</h2>
+      <div class="field">
+        <label for="defaultPrinter">Printer</label>
+        <select id="defaultPrinter"></select>
+        <small id="defaultPrinterStatus" class="status"></small>
+      </div>
+      <button id="btnRefreshPrinters" class="secondary">Refresh Printers</button>
+    </section>
+
+    <section class="card disabled">
+      <h2>Whitelist / Blacklist (Coming Soon)</h2>
+      <p class="disabled-text">
+        This area will allow you to manage allowed and blocked origins for print requests.
+      </p>
+    </section>
+
+    <section class="actions">
+      <button id="btnReloadEnv" class="secondary">Reload from .env</button>
+      <button id="btnSave" disabled>Save Changes</button>
+    </section>
+
+    <section id="messages"></section>
+
+    <footer>
+      <span id="version"></span>
+      <span id="uptime"></span>
+      <span id="lastUpdated"></span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

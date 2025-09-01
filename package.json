@@ -34,6 +34,7 @@
     "@mapbox/node-pre-gyp": "^2.0.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "node-thermal-printer": "^4.5.0",
@@ -46,10 +47,10 @@
       "config/**/*"
     ]
   },
-    "nodemonConfig": {
-      "ignore": [
-       "logs/*",
-       "data/*"
+  "nodemonConfig": {
+    "ignore": [
+      "logs/*",
+      "data/*"
     ]
   }
 }
