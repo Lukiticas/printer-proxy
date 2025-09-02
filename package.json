@@ -6,7 +6,7 @@
   "main": "dist-electron/index.js",
   "type": "commonjs",
   "scripts": {
-    "dev:server": "ts-node-dev --respawn --transpile-only server.ts",
+    "dev:server": "nodemon server.ts",
     "dev:electron": "cross-env ELECTRON_DEV=1 electron -r ts-node/register/transpile-only electron/index.ts",
     "build:runtime": "tsc -p tsconfig.json",
     "build:electron": "tsc -p electron/tsconfig.electron.json",

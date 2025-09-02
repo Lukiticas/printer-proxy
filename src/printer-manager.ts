@@ -1,7 +1,7 @@
 import printerLib = require('@grandchef/node-printer');
 import crypto from 'crypto';
 import { loggers } from './logging/logger';
-import { DiscoveredPrinter } from './types';
+import { DiscoveredPrinter, NormalizedPrinterDetails } from './types';
 import { ConfigService } from './config/config-service';
 
 export default class PrinterManager {
@@ -25,6 +25,28 @@ export default class PrinterManager {
     this.configService = service;
   }
 
+  private getConnectionString(printer: NormalizedPrinterDetails): string {
+    const portName = printer.portName || ''
+
+    if (portName.match(/^USB/i)) {
+      return 'USB';
+    }
+
+    if (portName.match(/^(tcp|socket|ipp|http|https):\/\//i)) {
+      return 'Network';
+    }
+
+    if (portName.match(/^lpt/i) || portName.match(/^com/i)) {
+      return 'Driver';
+    }
+
+    if (portName.match(/^(file|nul:|PORTPROMPT):\/\//i)) {
+      return 'System';
+    }
+
+    return 'Unknown';
+  }
+
   private async refresh(force = false): Promise<void> {
     const now = Date.now();
 
@@ -34,13 +56,13 @@ export default class PrinterManager {
 
     await new Promise<void>((resolve, reject) => {
       try {
-        const printers: printerLib.PrinterDetails[] = printerLib.getPrinters();
+        const printers: NormalizedPrinterDetails[] = printerLib.getPrinters() as NormalizedPrinterDetails[];
 
         this.cache = (printers || []).map(p => ({
           name: p.name,
-          connection: p.options?.port?.toUpperCase().includes('USB') ? 'USB' : 'System',
+          connection: p ? this.getConnectionString(p) : 'Unknown',
           isDefault: p.isDefault,
-          status: p.options?.status,
+          status: 'Ready',
           uid: p.name,
           lastSeen: Date.now(),
         } as DiscoveredPrinter));

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { Logger } from "winston";
 
 interface LoggerMap {
@@ -12,4 +12,8 @@ interface LoggerMap {
 interface ResponseMetaTracking extends Response {
   __startTime?: number;
   __bytesOut?: number;
+}
+
+export interface LoggedRequest extends Request {
+  requestId?: string;
 }

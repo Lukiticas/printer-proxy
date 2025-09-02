@@ -1,3 +1,4 @@
+import { PrinterDetails } from '@grandchef/node-printer';
 import pkg from '../../package.json';
 
 export type DeviceConnectionType = 'USB' | 'Network' | 'System' | 'Driver' | 'Unknown';
@@ -11,6 +12,22 @@ export interface DiscoveredPrinter {
   uid?: string;
   status?: string;
   lastSeen?: number;
+}
+
+export interface NormalizedPrinterDetails extends PrinterDetails {
+  name: string;
+  shareName?: string;
+  portName: string;
+  driverName: string;
+  printProcessor: string;
+  datatype: string;
+  parameters: string;
+  status: any[];
+  statusNumber: number;
+  attributes: string[];
+  priority: number;
+  defaultPriority: number;
+  averagePPM: number;
 }
 
 export interface BasicPrinterStatus {

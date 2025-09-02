@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { loggers, mirrorError } from '../logging/logger';
+import { LoggedRequest } from '../types';
 
 export function errorHandler() {
-  return (err: any, req: Request, res: Response, _next: NextFunction) => {
+  return (err: any, req: LoggedRequest, res: Response, _next: NextFunction) => {
     const requestId = (req as any).requestId;
 
     mirrorError(err, {
@@ -16,7 +17,7 @@ export function errorHandler() {
       status: err.status || 500,
       message: err.message,
     });
-    
+
     res.status(err.status || 500).json({
       error: err.message || 'Internal Server Error',
       requestId,

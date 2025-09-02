@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import { PromptProvider, PromptResult } from '../types';
 import { loggers } from '../logging/logger';
-import { Console } from 'console';
 
 const SCRIPT_DIR = path.join(process.cwd(), 'scripts');
 const SCRIPT_PATH = path.join(SCRIPT_DIR, 'security-prompt.ps1');

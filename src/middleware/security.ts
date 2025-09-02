@@ -6,6 +6,7 @@ const EXCLUDED_PREFIXES = ['/settings/', '/settings', '/health'];
 
 export function securityMiddleware(security: SecurityService) {
   return async (req: Request, res: Response, next: NextFunction) => {
+  
     try {
       if (req.method === 'OPTIONS') {
         return next();

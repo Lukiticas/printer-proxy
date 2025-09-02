@@ -15,14 +15,14 @@ export class SecurityService {
   normalizeHost(raw: string): string {
     let h = raw.trim().toLowerCase();
 
+    if (h === '::1') {
+      return '127.0.0.1';
+    }
+
     h = h.replace(/^https?:\/\//, '');
     h = h.split('/')[0];
     h = h.split(':')[0];
     h = h.replace(/^\[(.*)\]$/, '$1');
-
-    if (h === '::1') {
-      h = '127.0.0.1';
-    }
 
     return h;
   }

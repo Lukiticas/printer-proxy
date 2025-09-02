@@ -1,12 +1,14 @@
 import { Request, NextFunction } from 'express';
 import { v4 as uuid } from 'uuid';
 import { loggers } from '../logging/logger';
-import { ResponseMetaTracking } from '../types';
+import { LoggedRequest, ResponseMetaTracking } from '../types';
+
 
 export function requestLogger() {
-    return (req: Request, res: ResponseMetaTracking, next: NextFunction) => {
+    return (req: LoggedRequest, res: ResponseMetaTracking, next: NextFunction) => {
         const requestId = uuid();
-        (req as any).requestId = requestId;
+
+        req.requestId = requestId;
         res.__startTime = Date.now();
 
         const chunks: Buffer[] = [];
