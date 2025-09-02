@@ -3,6 +3,9 @@ import path from 'path';
 import { createLogger, format, transports, Logger } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import { LoggerMap } from '../types';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const {
   LOG_DIR = 'logs',
@@ -10,7 +13,7 @@ const {
   LOG_ROTATE = 'true',
   LOG_MAX_SIZE_MB = '10',
   LOG_MAX_FILES = '14d'
-} = process.env;
+} = process.env
 
 const ensureDir = (dir: string) => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -85,6 +88,7 @@ function buildLogger(category: string, baseLevel = LOG_LEVEL): Logger {
             const meta = Object.keys(rest).length
               ? ' ' + JSON.stringify(rest)
               : '';
+
             return `[${timestamp}] ${level} ${message}${stack ? '\n' + stack : ''}${meta}`;
           })
         ),

@@ -58,11 +58,13 @@ export function applyPartial(current: SettingsData, patch: PartialSettingsInput)
         changedKeys.push('host');
         restartRequired.push('host');
     }
+
     if (patch.port !== undefined && patch.port !== current.port) {
         updated.port = patch.port;
         changedKeys.push('port');
         restartRequired.push('port');
     }
+
     if (patch.defaultPrinter !== undefined && patch.defaultPrinter !== current.defaultPrinter) {
         updated.defaultPrinter = patch.defaultPrinter;
         changedKeys.push('defaultPrinter');

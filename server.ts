@@ -15,8 +15,12 @@ import { PowerShellPromptProvider } from './src/security/powershell-provider';
 import { SecurityService } from './src/security/security-service';
 import { securityMiddleware } from './src/middleware/security';
 import { securityRouter } from './src/endpoints/security';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+
 const printerManager = new PrinterManager();
 const configService = new ConfigService(undefined);
 

@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
 import {
   defaultSettings,
   validateSettings,
@@ -83,7 +82,6 @@ export class ConfigService {
   }
 
   private bootstrapFromEnv(printers: string[]) {
-    dotenv.config();
     const s = defaultSettings();
 
     if (process.env.HOST) {
@@ -100,7 +98,6 @@ export class ConfigService {
   }
 
   reloadFromEnv(printers: string[]): { changedKeys: string[] } {
-    dotenv.config();
     const patch: PartialSettingsInput = {};
 
     if (process.env.HOST) {
