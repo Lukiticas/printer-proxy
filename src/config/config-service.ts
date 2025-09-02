@@ -8,7 +8,6 @@ import {
 } from './schema';
 import { loggers } from '../logging/logger';
 import { PartialSettingsInput, SettingsData } from '../types/schema';
-import PrinterManager from '../printer-manager';
 
 export class ConfigService {
   private filePath: string;
@@ -29,29 +28,16 @@ export class ConfigService {
     this.settings = defaultSettings();
   }
 
-  async init(printerManager: PrinterManager) {
+  async init() {
     this.ensureDir();
-
-    const printerNames = (await printerManager.list()).map(p => p.name);
 
     if (fs.existsSync(this.filePath)) {
       this.load();
-
-      if (this.settings.defaultPrinter && !printerNames.includes(this.settings.defaultPrinter)) {
-        loggers.main.warn('ConfigDefaultPrinterStale', { defaultPrinter: this.settings.defaultPrinter });
-      }
-
       return
     }
 
-    this.bootstrapFromEnv(printerNames);
+    this.bootstrapFromEnv();
     this.save();
-
-    const settings = this.get();
-
-    if (settings.defaultPrinter && printerNames.includes(settings.defaultPrinter)) {
-      printerManager.setExplicitDefault(settings.defaultPrinter);
-    }
 
     loggers.main.info('ConfigCreatedFromEnv', { file: this.filePath });
   }
@@ -81,6 +67,7 @@ export class ConfigService {
       if (this.settings.security.trustLoopback === undefined) {
         this.settings.security.trustLoopback = true;
       }
+
       if (this.settings.security.includePortInHostKey === undefined) {
         this.settings.security.includePortInHostKey = false;
       }
@@ -100,7 +87,7 @@ export class ConfigService {
     }
   }
 
-  private bootstrapFromEnv(printers: string[]) {
+  private bootstrapFromEnv() {
     const s = defaultSettings();
 
     if (process.env.HOST) {
@@ -111,12 +98,12 @@ export class ConfigService {
       s.port = Number(process.env.PORT);
     }
 
-    s.defaultPrinter = process.env.DEFAULT_PRINTER || (printers[0] ?? undefined);
+    s.defaultPrinter = process.env.DEFAULT_PRINTER || undefined
 
     this.settings = s;
   }
 
-  reloadFromEnv(printers: string[]): { changedKeys: string[] } {
+  reloadFromEnv(): { changedKeys: string[] } {
     const patch: PartialSettingsInput = {};
 
     if (process.env.HOST) {
@@ -136,10 +123,6 @@ export class ConfigService {
 
     loggers.main.info('ConfigReloadFromEnv', { changedKeys });
 
-    if (this.settings.defaultPrinter && !printers.includes(this.settings.defaultPrinter)) {
-      loggers.main.warn('ConfigDefaultPrinterStale', { defaultPrinter: this.settings.defaultPrinter });
-    }
-
     return { changedKeys };
   }
 
@@ -147,14 +130,8 @@ export class ConfigService {
     return this.settings;
   }
 
-  update(patch: PartialSettingsInput, printers: string[]) {
+  update(patch: PartialSettingsInput) {
     const { updated, changedKeys, restartRequired } = applyPartial(this.settings, patch);
-
-    if (patch.defaultPrinter !== undefined && patch.defaultPrinter !== null) {
-      if (patch.defaultPrinter && !printers.includes(patch.defaultPrinter)) {
-        loggers.main.warn('SetDefaultPrinterStale', { requested: patch.defaultPrinter });
-      }
-    }
 
     this.settings = updated;
     this.save();
@@ -213,6 +190,10 @@ export class ConfigService {
   setDefaultPrinter(name: string) {
     this.settings.defaultPrinter = name;
     this.save();
+  }
+
+  getDefaultPrinter(): string | undefined {
+    return this.settings.defaultPrinter;
   }
 
   runtimeInfo(printers: string[]) {

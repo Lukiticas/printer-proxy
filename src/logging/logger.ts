@@ -3,9 +3,6 @@ import path from 'path';
 import { createLogger, format, transports, Logger } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import { LoggerMap } from '../types';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const {
   LOG_DIR = 'logs',

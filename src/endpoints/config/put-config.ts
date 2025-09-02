@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import { ConfigService } from "../../config/config-service";
-import PrinterManager from "../../printer-manager";
+import PrinterManager from "../../printing/printer-manager";
 import { loggers } from "../../logging/logger";
 
 export default function putConfigEndpoint(config: ConfigService, manager: PrinterManager): RequestHandler {
@@ -13,11 +13,7 @@ export default function putConfigEndpoint(config: ConfigService, manager: Printe
         host: patch.host,
         port: patch.port,
         defaultPrinter: patch.defaultPrinter
-      }, printers);
-
-      if (changedKeys.includes('defaultPrinter') && settings.defaultPrinter && printers.includes(settings.defaultPrinter)) {
-        manager.setExplicitDefault(settings.defaultPrinter);
-      }
+      });
 
       const stale = !!(settings.defaultPrinter && !printers.includes(settings.defaultPrinter));
 

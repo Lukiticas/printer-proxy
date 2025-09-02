@@ -8,7 +8,11 @@ export default function securityWhitelistEndpoint(security: SecurityService): Re
     try {
       const host = security.normalizeHost(req.params.host);
       security.removeBlacklist(host);
-      res.json({ success: true, host });
+
+      res.json({
+        success: true,
+        host
+      });
     } catch (e: any) {
       loggers.api.error('SecurityWhitelistFailed', { error: e.message });
 

@@ -17,7 +17,7 @@
   "include": [
     "server.ts",
     "src/**/*",
-    "src/service/**/*",
+    "src/printing/**/*",
     "config/**/*",
     "electron"
   ],

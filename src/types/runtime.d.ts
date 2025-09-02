@@ -1,7 +1,7 @@
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { SettingsData } from './schema';
 import { ConfigService } from '../config/config-service';
-import PrinterManager from '../printer-manager';
+import PrinterManager from '../printing/printer-manager';
 import { SecurityService } from '../security/security-service';
 import { Express } from 'express';
 

@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import path from 'path';
-import PrinterManager from '../printer-manager';
+import PrinterManager from '../printing/printer-manager';
 import { requestLogger } from '../middleware/request-logger';
 import { errorHandler } from '../middleware/error-handler';
 import { loggers, setupGlobalExceptionLogging } from '../logging/logger';
@@ -16,12 +16,8 @@ import { StartServerOptions, startServerOutput } from '../types';
 import { printingRouter } from '../endpoints/printing';
 import { PowerShellPromptProvider } from '../security/powershell-provider';
 import healthEndpoint from '../endpoints/health';
-import dotenv from 'dotenv';
-
 
 export async function startServer(opts: StartServerOptions = {}): Promise<startServerOutput> {
-  dotenv.config();
-
   setupGlobalExceptionLogging();
 
   const app = express();
@@ -33,9 +29,10 @@ export async function startServer(opts: StartServerOptions = {}): Promise<startS
   app.use(requestLogger());
 
   const printerManager = new PrinterManager();
-  const configService = new ConfigService(undefined);
+  const configService = new ConfigService();
 
-  await configService.init(printerManager)
+  await configService.init()
+
   printerManager.setConfigService(configService);
 
   const settings = configService.get();

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import PrinterManager from "../../printer-manager";
+import PrinterManager from "../../printing/printer-manager";
 import availableEndpoint from './available';
 import defaultEndpoint from './default';
 import writeEndpoint from './write';

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ConfigService } from '../../config/config-service';
-import PrinterManager from '../,,/../../printer-manager';
+import PrinterManager from '../../printing/printer-manager';
 import getConfigEndpoint from './get-config';
 import putConfigEndpoint from './put-config';
 import reloadEnvEndpoint from './reload-env';

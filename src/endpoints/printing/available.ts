@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../../printer-manager';
+import PrinterManager from '../../printing/printer-manager';
 import { AvailablePrintersResponse } from '../../types';
-import pkg from '../../../package.json';
+
 import { loggers } from '../../logging/logger';
 
 export default function availableEndpoint(manager: PrinterManager): RequestHandler {
@@ -10,16 +10,7 @@ export default function availableEndpoint(manager: PrinterManager): RequestHandl
       const printers = await manager.list();
 
       res.json({
-        printers: printers.map((p) => ({
-          name: p.name,
-          connection: p.connection,
-          isDefault: p.isDefault,
-          manufacturer: p.manufacturer,
-          origin: pkg.name,
-          lastSeen: p?.lastSeen ?? 0,
-          uid: p.uid,
-          status: p.status,
-        })),
+        printers,
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {

@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../../printer-manager';
+import PrinterManager from '../../printing/printer-manager';
 import {
   DefaultPrinterResponse,
   SetDefaultPrinterRequest,
@@ -10,6 +10,8 @@ import { loggers } from '../../logging/logger';
 const handleGet = async (_req: Request, res: Response, manager: PrinterManager) => {
   try {
     const printer = await manager.getDefaultPrinter();
+
+    console.log('DEFAULT PRINTER', printer);
 
     const body: DefaultPrinterResponse = {
       printer: printer,
@@ -83,25 +85,21 @@ const handleDelete = async (_req: Request, res: Response, manager: PrinterManage
   }
 };
 
-const forwardHandler = (req: Request, res: Response, manager: PrinterManager) => {
-  if (req.method === 'GET') {
-    return handleGet(req, res, manager);
-  }
-
-  if (req.method === 'POST') {
-    return handlePost(req, res, manager);
-  }
-
-  if (req.method === 'DELETE') {
-    return handleDelete(req, res, manager);
-  }
-
-  loggers.api.error('MethodNotAllowed', { method: req.method });
-  return res.status(405).json({ error: 'Method not allowed' });
-};
-
 export default function defaultEndpoint(manager: PrinterManager): RequestHandler {
+  const handlers: Record<string, (req: Request, res: Response, manager: PrinterManager) => Promise<Response>> = {
+    GET: handleGet,
+    POST: handlePost,
+    DELETE: handleDelete,
+  };
+
   return async (req: Request, res: Response) => {
-    return forwardHandler(req, res, manager);
+    const handler = handlers[req.method] || undefined;
+
+    if (handler) {
+      return handler(req, res, manager);
+    }
+
+    loggers.api.error('MethodNotAllowed', { method: req.method });
+    return res.status(405).json({ error: 'Method not allowed' });
   };
 }

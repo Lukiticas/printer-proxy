@@ -6,7 +6,7 @@ const EXCLUDED_PREFIXES = ['/settings/', '/settings', '/health'];
 
 export function securityMiddleware(security: SecurityService) {
   return async (req: Request, res: Response, next: NextFunction) => {
-  
+
     try {
       if (req.method === 'OPTIONS') {
         return next();
@@ -34,15 +34,13 @@ export function securityMiddleware(security: SecurityService) {
       const decision = await security.evaluate(host, action);
 
       if (decision.type !== 'allow') {
-        res.status(403).json({
+        return res.status(403).json({
           error: 'AccessDenied',
           host,
           reason: decision.reason,
           scope: decision.scope,
           timestamp: new Date().toISOString()
         });
-
-        return;
       }
 
       return next();

@@ -12,6 +12,9 @@ export interface DiscoveredPrinter {
   uid?: string;
   status?: string;
   lastSeen?: number;
+  deviceType?: string;
+  provider?: string;
+  version?: string;
 }
 
 export interface NormalizedPrinterDetails extends PrinterDetails {
@@ -84,6 +87,7 @@ export interface PrinterJobResponseBody {
   printer?: string;
   message?: string;
   timestamp: string;
+  status?: string;
   error?: string;
 }
 

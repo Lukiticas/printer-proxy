@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from 'express';
-import PrinterManager from '../../printer-manager';
+import PrinterManager from '../../printing/printer-manager';
 import { PrinterJobRequestBody, PrinterJobResponseBody } from '../../types';
 import { loggers } from '../../logging/logger';
 
@@ -19,6 +19,7 @@ export default function readEndpoint(manager: PrinterManager): RequestHandler {
       res.json({
         success: true,
         jobId,
+        status: 'submitted',
         printer: printer || 'default',
         message: 'Print job submitted',
         timestamp: new Date().toISOString(),
@@ -29,6 +30,7 @@ export default function readEndpoint(manager: PrinterManager): RequestHandler {
       res.status(500).json({
         success: false,
         printer: req.body?.printer,
+        status: 'error',
         message: req.body?.data,
         error: e.message || 'Status query failed',
         timestamp: new Date().toISOString(),
