@@ -15,7 +15,17 @@ export class ConfigService {
   private settings: SettingsData;
 
   constructor(customPath?: string) {
-    this.filePath = customPath || path.join(process.cwd(), 'data', 'settings.json');
+    const dataDir = customPath
+      ? path.dirname(customPath)
+      : (process.env.DATA_DIR
+        ? process.env.DATA_DIR
+        : path.join(process.cwd(), 'data'));
+
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
+    this.filePath = customPath || path.join(dataDir, 'settings.json');
     this.settings = defaultSettings();
   }
 
@@ -63,10 +73,19 @@ export class ConfigService {
       const v = validateSettings(data);
 
       if (!v.valid || !v.value) {
-        throw new Error('Invalid settings.json: ' + v.errors.join('; '));
+        throw new Error(v.errors.join('; '));
       }
 
       this.settings = v.value;
+
+      if (this.settings.security.trustLoopback === undefined) {
+        this.settings.security.trustLoopback = true;
+      }
+      if (this.settings.security.includePortInHostKey === undefined) {
+        this.settings.security.includePortInHostKey = false;
+      }
+
+      this.save();
 
       loggers.main.info('ConfigLoaded', {
         host: this.settings.host,

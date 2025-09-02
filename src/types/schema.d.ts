@@ -3,6 +3,8 @@ export interface SecurityConfig {
   whitelist: string[];
   blacklist: string[];
   promptMode?: 'popup'; 
+  trustLoopback?: boolean;
+  includePortInHostKey?: boolean;
 }
 
 export interface UIConfig {
