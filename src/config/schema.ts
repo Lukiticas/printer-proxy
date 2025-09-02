@@ -5,7 +5,7 @@ export const CURRENT_SCHEMA_VERSION = 1;
 export function defaultSettings(): SettingsData {
     return {
         schemaVersion: CURRENT_SCHEMA_VERSION,
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 9100,
         defaultPrinter: undefined,
         security: {

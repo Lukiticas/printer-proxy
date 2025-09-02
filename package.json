@@ -3,52 +3,45 @@
   "description": "HTTP proxy for Elgin thermal printers",
   "version": "0.3.0",
   "private": true,
-  "main": "dist-electron/index.js",
+  "main": "dist-electron/electron/index.js",
   "scripts": {
-    "dev:server": "nodemon server.ts",
-    "dev:electron": "npm run build:runtime && tsc -p electron/tsconfig.electron.json && cross-env ELECTRON_DEV=1 electron dist-electron/electron/index.js",
-    "build:electron": "tsc -p electron/tsconfig.electron.json",
+    "postinstall": "patch-package || echo 'patch skipped'",
+    "rebuild:native:electron": "electron-rebuild -f -w @grandchef/node-printer",
+    "rebuild:native:node": "node scripts/rebuild-node-printer-node.js",
+    "ensure:native:electron": "node scripts/ensure-native.js electron",
+    "ensure:native:node": "node scripts/ensure-native.js node",
     "build:runtime": "tsc -p tsconfig.json",
+    "build:electron": "tsc -p electron/tsconfig.electron.json",
     "build": "npm run build:runtime && npm run build:electron",
-    "start": "electron dist-electron/electron/index.js",
-    "postinstall": "patch-package && npx electron-rebuild -f -w @grandchef/node-printer"
+    "dev": "npm run ensure:native:electron && npm run build && cross-env ELECTRON_DEV=1 electron dist-electron/electron/index.js",
+    "dev:server": "npm run ensure:native:node && ts-node-dev --respawn --transpile-only server.ts",
+    "package": "npm run ensure:native:electron && npm run build && electron-builder"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
+    "cross-env": "^7.0.3",
+    "electron": "37.4.0",
+    "electron-builder": "26.0.12",
     "electron-rebuild": "3.2.9",
+    "electronmon": "^2.0.3",
     "node-windows": "^1.0.0-beta.8",
-    "nodemon": "^3.1.10",
     "patch-package": "^8.0.0",
-    "rimraf": "^5.0.10",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "@grandchef/node-printer": "0.8.0",
     "@mapbox/node-pre-gyp": "^2.0.0",
-    "@types/electron": "1.4.38",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "dotenv": "^17.2.1",
-    "electron": "37.4.0",
-    "electron-builder": "26.0.12",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
-    "node-thermal-printer": "^4.5.0",
-    "ts-node-dev": "^2.0.0",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "logs/*",
-      "data/*"
-    ]
   },
   "build": {
     "appId": "com.example.printerproxy",

@@ -22,6 +22,6 @@ export class TrayPromptProvider implements PromptProvider {
       3: 'blacklist'
     };
 
-    return { decision: map[index] || 'deny-once', host, action };
+    return { decision: map[index.response] || 'deny-once', host, action };
   }
 }

@@ -3,19 +3,26 @@ require('dotenv').config({ debug: true, path: __dirname + '/.env' });
 import { app, Tray, Menu, shell, nativeImage, dialog } from 'electron';
 import path from 'path';
 import fs from 'fs';
+import { startServerOutput } from '../src/types';
+import { resolveAsset } from './asset-path';
 
 let tray: Tray | null = null;
-let serverHandle: any = null;
+let serverHandle: startServerOutput | null = null;
 
 const isDevEnv = process.env.ELECTRON_DEV === '1';
 
-async function loadServerCore() {
-  if (isDevEnv) {
-    return require('../src/runtime/server-core');
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    return require('../dist-runtime/src/runtime/server-core');
-  }
+async function loadServerCore(): Promise<{ startServer: (opts?: any) => Promise<startServerOutput> }> {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isDevEnv) {
+        resolve(await require('../src/runtime/server-core'))
+      } else {
+        resolve(await require('../dist-runtime/src/runtime/server-core'));
+      }
+    } catch (e) {
+      reject(e);
+    }
+  })
 }
 
 function ensureDirs(userData: string) {
@@ -38,6 +45,7 @@ function ensureDirs(userData: string) {
 async function startBackend() {
   const { startServer } = await loadServerCore();
   serverHandle = await startServer();
+  console.log('[electron] Backend server started', serverHandle.settings);
 }
 
 function buildMenu() {
@@ -64,9 +72,11 @@ function buildMenu() {
       label: 'Reload Config (.env)',
       click: async () => {
         try {
-          const printers = (await serverHandle.printerManager.list())
-            .map((p: any) => p.name);
-          serverHandle.configService.reloadFromEnv(printers);
+          if (!serverHandle?.configService) {
+            throw new Error('Config service not available');
+          }
+
+          serverHandle.configService.reloadFromEnv();
           dialog.showMessageBox({ message: 'Reloaded from .env (if present)', type: 'info' });
         } catch (e: any) {
           dialog.showErrorBox('Config Reload Failed', e.message || String(e));
@@ -80,6 +90,7 @@ function buildMenu() {
         try {
           await serverHandle?.stop();
           await startBackend();
+
           buildMenu();
         } catch (e: any) {
           dialog.showErrorBox('Restart Failed', e.message || String(e));
@@ -100,15 +111,15 @@ function buildMenu() {
 }
 
 async function createTray() {
-  const iconCandidate = path.join(process.resourcesPath, 'tray-icon.png');
-  let icon = nativeImage.createEmpty();
+  const iconPath = resolveAsset('icon.ico');
+  const image = nativeImage.createFromPath(iconPath);
 
-  if (fs.existsSync(iconCandidate)) {
-    icon = nativeImage.createFromPath(iconCandidate);
-    icon.setTemplateImage(false);
+  if (image.isEmpty()) {
+    console.warn('Tray icon failed to load at', iconPath);
   }
 
-  tray = new Tray(icon);
+  tray = new Tray(image);
+  tray.setToolTip('Printer Proxy');
 
   buildMenu();
 }
