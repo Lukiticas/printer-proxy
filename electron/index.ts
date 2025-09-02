@@ -1,4 +1,5 @@
-import './env'
+require('dotenv').config({ debug: true, path: '../.env' });
+
 import { app, Tray, Menu, shell, nativeImage, dialog } from 'electron';
 import path from 'path';
 import fs from 'fs';
