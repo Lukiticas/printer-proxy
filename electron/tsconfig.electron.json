@@ -1,11 +1,20 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../dist-electron",
-    "rootDir": "../"
+    "rootDir": "../",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022"
   },
   "include": [
-    "electron/index.ts",
-    "src/**/*.ts"
+    "index.ts", // the main file inside electron/
+    "**/*.ts", // any other .ts under electron/
+    "../src/**/*.ts" // source files from src/
+  ],
+  "exclude": [
+    "../dist-runtime",
+    "../dist-electron",
+    "../node_modules"
   ]
 }

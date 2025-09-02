@@ -11,10 +11,8 @@ const handleGet = async (_req: Request, res: Response, manager: PrinterManager) 
   try {
     const printer = await manager.getDefaultPrinter();
 
-    console.log('DEFAULT PRINTER', printer);
-
     const body: DefaultPrinterResponse = {
-      printer: printer,
+      printer: printer || undefined,
       timestamp: new Date().toISOString(),
     };
 

@@ -1,0 +1,1225 @@
+diff --git a/node_modules/@grandchef/node-printer/bin/win32-x64-136/node-printer.node b/node_modules/@grandchef/node-printer/bin/win32-x64-136/node-printer.node
+new file mode 100644
+index 0000000..b13ca9e
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/bin/win32-x64-136/node-printer.node differ
+diff --git a/node_modules/@grandchef/node-printer/binding.gyp b/node_modules/@grandchef/node-printer/binding.gyp
+index d84b174..59729d4 100644
+--- a/node_modules/@grandchef/node-printer/binding.gyp
++++ b/node_modules/@grandchef/node-printer/binding.gyp
+@@ -66,7 +66,7 @@
+           ],
+           "msvs_settings": {
+             "VCCLCompilerTool": {
+-              "AdditionalOptions": [ "-std:c++17", ],
++              "AdditionalOptions": [ "-std:c++20", ],
+             },
+           },
+         }],
+@@ -75,14 +75,14 @@
+             "-stdlib=libc++"
+           ],
+           'xcode_settings': {
+-            "OTHER_CPLUSPLUSFLAGS":["-std=c++17", "-stdlib=libc++"],
++            "OTHER_CPLUSPLUSFLAGS":["-std=c++20", "-stdlib=libc++"],
+             "OTHER_LDFLAGS": ["-stdlib=libc++"],
+             "MACOSX_DEPLOYMENT_TARGET": "14.0",
+           },
+         }],
+         ['OS=="linux"', {
+           'cflags_cc':[
+-            "-std=c++17"
++            "-std=c++20"
+           ]
+         }],
+       ]
+diff --git a/node_modules/@grandchef/node-printer/build/Release/.forge-meta b/node_modules/@grandchef/node-printer/build/Release/.forge-meta
+new file mode 100644
+index 0000000..cf9ff19
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/.forge-meta
+@@ -0,0 +1 @@
++x64--136
+\ No newline at end of file
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.exp b/node_modules/@grandchef/node-printer/build/Release/node_printer.exp
+new file mode 100644
+index 0000000..57e65cd
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.exp differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.iobj b/node_modules/@grandchef/node-printer/build/Release/node_printer.iobj
+new file mode 100644
+index 0000000..1e7d159
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.iobj differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.ipdb b/node_modules/@grandchef/node-printer/build/Release/node_printer.ipdb
+new file mode 100644
+index 0000000..3b460ac
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.ipdb differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.lib b/node_modules/@grandchef/node-printer/build/Release/node_printer.lib
+new file mode 100644
+index 0000000..760bec3
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.lib differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.node b/node_modules/@grandchef/node-printer/build/Release/node_printer.node
+new file mode 100644
+index 0000000..b13ca9e
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.node differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/node_printer.pdb b/node_modules/@grandchef/node-printer/build/Release/node_printer.pdb
+new file mode 100644
+index 0000000..40e9d13
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/node_printer.pdb differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/Cl.items.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/Cl.items.tlog
+new file mode 100644
+index 0000000..753e023
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/Cl.items.tlog
+@@ -0,0 +1 @@
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\obj\action_after_build\win_delay_load_hook.obj
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.command.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.command.1.tlog
+new file mode 100644
+index 0000000..12e2ebc
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.command.1.tlog
+@@ -0,0 +1,3 @@
++^C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\NODE_PRINTER.NODE
++call mkdir "C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib" 2>nul & set ERRORLEVEL=0 & copy /Y "C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.node" "C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib\node_printer.node"
++if %errorlevel% neq 0 exit /b %errorlevel%
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.read.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.read.1.tlog
+new file mode 100644
+index 0000000..83edebe
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.read.1.tlog
+@@ -0,0 +1 @@
++^C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\NODE_PRINTER.NODE
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.write.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.write.1.tlog
+new file mode 100644
+index 0000000..48cbe0e
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/CustomBuild.write.1.tlog
+@@ -0,0 +1,2 @@
++^C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\NODE_PRINTER.NODE
++C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\LIB\NODE_PRINTER.NODE
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/action_after_build.lastbuildstate b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/action_after_build.lastbuildstate
+new file mode 100644
+index 0000000..facb2c0
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_a.2FAF6D24.tlog/action_after_build.lastbuildstate
+@@ -0,0 +1,2 @@
++PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.38.33130:TargetPlatformVersion=10.0.26100.0:
++Release|x64|C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\|
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_after_build.recipe b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_after_build.recipe
+new file mode 100644
+index 0000000..a30c650
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/action_after_build/action_after_build.recipe
+@@ -0,0 +1,14 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project>
++  <ProjectOutputs>
++    <ProjectOutput>
++      <FullPath>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.node</FullPath>
++    </ProjectOutput>
++    <ProjectOutput>
++      <FullPath>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\action_after_build</FullPath>
++    </ProjectOutput>
++  </ProjectOutputs>
++  <ContentFiles />
++  <SatelliteDlls />
++  <NonRecipeFileRefs />
++</Project>
+\ No newline at end of file
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.node.recipe b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.node.recipe
+new file mode 100644
+index 0000000..5e88653
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.node.recipe
+@@ -0,0 +1,11 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project>
++  <ProjectOutputs>
++    <ProjectOutput>
++      <FullPath>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.node</FullPath>
++    </ProjectOutput>
++  </ProjectOutputs>
++  <ContentFiles />
++  <SatelliteDlls />
++  <NonRecipeFileRefs />
++</Project>
+\ No newline at end of file
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.command.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.command.1.tlog
+new file mode 100644
+index 0000000..6f4b7b6
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.command.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.read.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.read.1.tlog
+new file mode 100644
+index 0000000..88e4886
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.read.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.write.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.write.1.tlog
+new file mode 100644
+index 0000000..e3f1f59
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/CL.write.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/Cl.items.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/Cl.items.tlog
+new file mode 100644
+index 0000000..8150632
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/Cl.items.tlog
+@@ -0,0 +1,3 @@
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\src\node_printer.cc;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\obj\node_printer\src\node_printer.obj
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\src\node_printer_win.cc;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\obj\node_printer\src\node_printer_win.obj
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\obj\node_printer\win_delay_load_hook.obj
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.command.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.command.1.tlog
+new file mode 100644
+index 0000000..925b130
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.command.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.read.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.read.1.tlog
+new file mode 100644
+index 0000000..4224847
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.read.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.secondary.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.secondary.1.tlog
+new file mode 100644
+index 0000000..45e2576
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.secondary.1.tlog
+@@ -0,0 +1,5 @@
++^C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\OBJ\NODE_PRINTER\SRC\NODE_PRINTER.OBJ|C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\OBJ\NODE_PRINTER\SRC\NODE_PRINTER_WIN.OBJ|C:\USERS\LUCAS MATHEUS\DOCUMENTS\PROJECTS\PRINTER-PROXY\NODE_MODULES\@GRANDCHEF\NODE-PRINTER\BUILD\RELEASE\OBJ\NODE_PRINTER\WIN_DELAY_LOAD_HOOK.OBJ
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.LIB
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.EXP
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.IPDB
++C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\Release\node_printer.IOBJ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.write.1.tlog b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.write.1.tlog
+new file mode 100644
+index 0000000..ed324ea
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/link.write.1.tlog differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/node_printer.lastbuildstate b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/node_printer.lastbuildstate
+new file mode 100644
+index 0000000..facb2c0
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/node_printer.tlog/node_printer.lastbuildstate
+@@ -0,0 +1,2 @@
++PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.38.33130:TargetPlatformVersion=10.0.26100.0:
++Release|x64|C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\build\|
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer.obj b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer.obj
+new file mode 100644
+index 0000000..e67a3d1
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer.obj differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer_win.obj b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer_win.obj
+new file mode 100644
+index 0000000..03cc5a0
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/src/node_printer_win.obj differ
+diff --git a/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/win_delay_load_hook.obj b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/win_delay_load_hook.obj
+new file mode 100644
+index 0000000..5ec3f6c
+Binary files /dev/null and b/node_modules/@grandchef/node-printer/build/Release/obj/node_printer/win_delay_load_hook.obj differ
+diff --git a/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj b/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj
+new file mode 100644
+index 0000000..f0a557a
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj
+@@ -0,0 +1,149 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++    <RootNamespace>action_after_build</RootNamespace>
++    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
++    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
++    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
++  <PropertyGroup Label="Configuration">
++    <ConfigurationType>Utility</ConfigurationType>
++  </PropertyGroup>
++  <PropertyGroup Label="Locals">
++    <PlatformToolset>v143</PlatformToolset>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
++  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props"/>
++  <ImportGroup Label="ExtensionSettings"/>
++  <ImportGroup Label="PropertySheets">
++    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"/>
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros"/>
++  <PropertyGroup>
++    <ExecutablePath>$(ExecutablePath);$(MSBuildProjectDirectory)\..\bin\;$(MSBuildProjectDirectory)\..\bin\</ExecutablePath>
++    <IntDir>$(Configuration)\obj\$(ProjectName)\</IntDir>
++    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
++    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
++    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
++    <TargetName>$(ProjectName)</TargetName>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalOptions>/Zc:__cplusplus -std:c++20 /Zm2000 %(AdditionalOptions)</AdditionalOptions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <BufferSecurityCheck>true</BufferSecurityCheck>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
++      <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++      <ExceptionHandling>false</ExceptionHandling>
++      <MinimalRebuild>false</MinimalRebuild>
++      <MultiProcessorCompilation>true</MultiProcessorCompilation>
++      <OmitFramePointers>false</OmitFramePointers>
++      <Optimization>Disabled</Optimization>
++      <PrecompiledHeader>NotUsing</PrecompiledHeader>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=action_after_build;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <StringPooling>true</StringPooling>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TreatWarningAsError>false</TreatWarningAsError>
++      <WarningLevel>Level3</WarningLevel>
++      <WholeProgramOptimization>true</WholeProgramOptimization>
++    </ClCompile>
++    <Lib>
++      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
++    </Lib>
++    <Link>
++      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Lucas Matheus\\.electron-gyp\\37.4.0\\x64\\node.lib&quot;</AdditionalDependencies>
++      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
++      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <OptimizeReferences>true</OptimizeReferences>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TargetMachine>MachineX64</TargetMachine>
++    </Link>
++    <ResourceCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=action_after_build;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
++    </ResourceCompile>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalOptions>/Zc:__cplusplus -std:c++20 /Zm2000 %(AdditionalOptions)</AdditionalOptions>
++      <BufferSecurityCheck>true</BufferSecurityCheck>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
++      <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++      <ExceptionHandling>false</ExceptionHandling>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <FunctionLevelLinking>true</FunctionLevelLinking>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <MultiProcessorCompilation>true</MultiProcessorCompilation>
++      <OmitFramePointers>true</OmitFramePointers>
++      <Optimization>Full</Optimization>
++      <PrecompiledHeader>NotUsing</PrecompiledHeader>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=action_after_build;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <RuntimeTypeInfo>false</RuntimeTypeInfo>
++      <StringPooling>true</StringPooling>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TreatWarningAsError>false</TreatWarningAsError>
++      <WarningLevel>Level3</WarningLevel>
++      <WholeProgramOptimization>true</WholeProgramOptimization>
++    </ClCompile>
++    <Lib>
++      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
++    </Lib>
++    <Link>
++      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Lucas Matheus\\.electron-gyp\\37.4.0\\x64\\node.lib&quot;</AdditionalDependencies>
++      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
++      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <OptimizeReferences>true</OptimizeReferences>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TargetMachine>MachineX64</TargetMachine>
++    </Link>
++    <ResourceCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=action_after_build;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
++    </ResourceCompile>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <None Include="..\binding.gyp"/>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc"/>
++  </ItemGroup>
++  <ItemGroup>
++    <CustomBuild Include="$(OutDir)\node_printer.node">
++      <FileType>Document</FileType>
++      <Command>call mkdir &quot;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib&quot; 2&gt;nul &amp; set ERRORLEVEL=0 &amp; copy /Y &quot;$(OutDir)node_printer.node&quot; &quot;C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib\node_printer.node&quot;&#xD;&#xA;if %errorlevel% neq 0 exit /b %errorlevel%</Command>
++      <Message>Copying $(OutDir)/node_printer.node to C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib</Message>
++      <Outputs>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@grandchef\node-printer\lib\node_printer.node</Outputs>
++    </CustomBuild>
++  </ItemGroup>
++  <ItemGroup>
++    <ProjectReference Include="node_printer.vcxproj">
++      <Project>{0690D73F-8713-396D-99D3-EF1BC20D3ED0}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
++  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets"/>
++  <ImportGroup Label="ExtensionTargets"/>
++</Project>
+diff --git a/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj.filters b/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj.filters
+new file mode 100644
+index 0000000..bd229e1
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/action_after_build.vcxproj.filters
+@@ -0,0 +1,52 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="C:">
++      <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users">
++      <UniqueIdentifier>{E9F714C1-DA89-54E2-60CF-39FEB20BF756}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus">
++      <UniqueIdentifier>{9F3B18AE-0294-48C7-83D9-AB97C417AD7F}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents">
++      <UniqueIdentifier>{87566BA0-CA33-1144-65F5-087C5F9D6C20}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects">
++      <UniqueIdentifier>{7CAFA559-49D5-0913-BD41-C91CD6F35482}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy">
++      <UniqueIdentifier>{77F7163B-3F9F-FC47-27E0-7315345D8946}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules">
++      <UniqueIdentifier>{56DF7A98-063D-FB9D-485C-089023B4C16A}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron">
++      <UniqueIdentifier>{6FD122B1-87CE-5BE7-127F-692B6E499EA3}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp">
++      <UniqueIdentifier>{77348C0E-2034-7791-74D5-63C077DF5A3B}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src">
++      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..">
++      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="$(OutDir)">
++      <UniqueIdentifier>{ECA95933-7FA6-5798-4EC4-C0CAC6DD34DE}</UniqueIdentifier>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc">
++      <Filter>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src</Filter>
++    </ClCompile>
++    <None Include="..\binding.gyp">
++      <Filter>..</Filter>
++    </None>
++    <None Include="$(OutDir)\node_printer.node">
++      <Filter>$(OutDir)</Filter>
++    </None>
++  </ItemGroup>
++</Project>
+diff --git a/node_modules/@grandchef/node-printer/build/binding.sln b/node_modules/@grandchef/node-printer/build/binding.sln
+new file mode 100644
+index 0000000..ac25269
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/binding.sln
+@@ -0,0 +1,28 @@
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 2015
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "action_after_build", "action_after_build.vcxproj", "{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}"
++	ProjectSection(ProjectDependencies) = postProject
++		{0690D73F-8713-396D-99D3-EF1BC20D3ED0} = {0690D73F-8713-396D-99D3-EF1BC20D3ED0}
++	EndProjectSection
++EndProject
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "node_printer", "node_printer.vcxproj", "{0690D73F-8713-396D-99D3-EF1BC20D3ED0}"
++EndProject
++Global
++	GlobalSection(SolutionConfigurationPlatforms) = preSolution
++		Debug|x64 = Debug|x64
++		Release|x64 = Release|x64
++	EndGlobalSection
++	GlobalSection(ProjectConfigurationPlatforms) = postSolution
++		{0690D73F-8713-396D-99D3-EF1BC20D3ED0}.Debug|x64.ActiveCfg = Debug|x64
++		{0690D73F-8713-396D-99D3-EF1BC20D3ED0}.Debug|x64.Build.0 = Debug|x64
++		{0690D73F-8713-396D-99D3-EF1BC20D3ED0}.Release|x64.ActiveCfg = Release|x64
++		{0690D73F-8713-396D-99D3-EF1BC20D3ED0}.Release|x64.Build.0 = Release|x64
++		{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}.Debug|x64.ActiveCfg = Debug|x64
++		{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}.Debug|x64.Build.0 = Debug|x64
++		{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}.Release|x64.ActiveCfg = Release|x64
++		{2FAF6D24-3F7D-AE2B-69AD-D360A2BCCDC3}.Release|x64.Build.0 = Release|x64
++	EndGlobalSection
++	GlobalSection(SolutionProperties) = preSolution
++		HideSolutionNode = FALSE
++	EndGlobalSection
++EndGlobal
+diff --git a/node_modules/@grandchef/node-printer/build/config.gypi b/node_modules/@grandchef/node-printer/build/config.gypi
+new file mode 100644
+index 0000000..365ac02
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/config.gypi
+@@ -0,0 +1,518 @@
++# Do not edit. File was generated by node-gyp's "configure" step
++{
++  "target_defaults": {
++    "cflags": [],
++    "configurations": {
++      "Debug": {
++        "v8_enable_v8_checks": 0,
++        "variables": {}
++      },
++      "Release": {
++        "v8_enable_v8_checks": 1,
++        "variables": {}
++      }
++    },
++    "default_configuration": "Release",
++    "defines": [],
++    "include_dirs": [],
++    "libraries": [],
++    "msbuild_toolset": "v143",
++    "msvs_windows_target_platform_version": "10.0.26100.0"
++  },
++  "variables": {
++    "asan": 0,
++    "build_v8_with_gn": "false",
++    "built_with_electron": 1,
++    "control_flow_guard": "false",
++    "coverage": "false",
++    "dcheck_always_on": 0,
++    "debug_nghttp2": "false",
++    "debug_node": "false",
++    "enable_lto": "false",
++    "enable_pgo_generate": "false",
++    "enable_pgo_use": "false",
++    "error_on_warn": "false",
++    "force_dynamic_crt": 0,
++    "host_arch": "x64",
++    "icu_data_in": "..\\..\\deps\\icu-tmp\\icudt77l.dat",
++    "icu_endianness": "l",
++    "icu_gyp_path": "tools/icu/icu-generic.gyp",
++    "icu_path": "deps/icu-small",
++    "icu_small": "false",
++    "icu_ver_major": "77",
++    "libdir": "lib",
++    "llvm_version": "0.0",
++    "napi_build_version": "10",
++    "node_builtin_shareable_builtins": [
++      "deps/cjs-module-lexer/lexer.js",
++      "deps/cjs-module-lexer/dist/lexer.js",
++      "deps/undici/undici.js",
++      "deps/amaro/dist/index.js"
++    ],
++    "node_byteorder": "little",
++    "node_cctest_sources": [
++      "src/node_snapshot_stub.cc",
++      "test/cctest/inspector/test_node_protocol.cc",
++      "test/cctest/node_test_fixture.cc",
++      "test/cctest/test_aliased_buffer.cc",
++      "test/cctest/test_base64.cc",
++      "test/cctest/test_base_object_ptr.cc",
++      "test/cctest/test_cppgc.cc",
++      "test/cctest/test_crypto_clienthello.cc",
++      "test/cctest/test_dataqueue.cc",
++      "test/cctest/test_environment.cc",
++      "test/cctest/test_inspector_socket.cc",
++      "test/cctest/test_inspector_socket_server.cc",
++      "test/cctest/test_json_utils.cc",
++      "test/cctest/test_linked_binding.cc",
++      "test/cctest/test_node_api.cc",
++      "test/cctest/test_node_crypto.cc",
++      "test/cctest/test_node_crypto_env.cc",
++      "test/cctest/test_node_postmortem_metadata.cc",
++      "test/cctest/test_node_task_runner.cc",
++      "test/cctest/test_path.cc",
++      "test/cctest/test_per_process.cc",
++      "test/cctest/test_platform.cc",
++      "test/cctest/test_quic_cid.cc",
++      "test/cctest/test_quic_error.cc",
++      "test/cctest/test_quic_tokens.cc",
++      "test/cctest/test_report.cc",
++      "test/cctest/test_sockaddr.cc",
++      "test/cctest/test_traced_value.cc",
++      "test/cctest/test_util.cc",
++      "test/cctest/node_test_fixture.h"
++    ],
++    "node_debug_lib": "false",
++    "node_enable_d8": "false",
++    "node_enable_v8_vtunejit": "false",
++    "node_fipsinstall": "false",
++    "node_install_corepack": "true",
++    "node_install_npm": "true",
++    "node_library_files": [
++      "lib/_http_agent.js",
++      "lib/_http_client.js",
++      "lib/_http_common.js",
++      "lib/_http_incoming.js",
++      "lib/_http_outgoing.js",
++      "lib/_http_server.js",
++      "lib/_stream_duplex.js",
++      "lib/_stream_passthrough.js",
++      "lib/_stream_readable.js",
++      "lib/_stream_transform.js",
++      "lib/_stream_wrap.js",
++      "lib/_stream_writable.js",
++      "lib/_tls_common.js",
++      "lib/_tls_wrap.js",
++      "lib/assert.js",
++      "lib/assert/strict.js",
++      "lib/async_hooks.js",
++      "lib/buffer.js",
++      "lib/child_process.js",
++      "lib/cluster.js",
++      "lib/console.js",
++      "lib/constants.js",
++      "lib/crypto.js",
++      "lib/dgram.js",
++      "lib/diagnostics_channel.js",
++      "lib/dns.js",
++      "lib/dns/promises.js",
++      "lib/domain.js",
++      "lib/events.js",
++      "lib/fs.js",
++      "lib/fs/promises.js",
++      "lib/http.js",
++      "lib/http2.js",
++      "lib/https.js",
++      "lib/inspector.js",
++      "lib/inspector/promises.js",
++      "lib/internal/abort_controller.js",
++      "lib/internal/assert.js",
++      "lib/internal/assert/assertion_error.js",
++      "lib/internal/assert/calltracker.js",
++      "lib/internal/assert/myers_diff.js",
++      "lib/internal/assert/utils.js",
++      "lib/internal/async_context_frame.js",
++      "lib/internal/async_hooks.js",
++      "lib/internal/async_local_storage/async_context_frame.js",
++      "lib/internal/async_local_storage/async_hooks.js",
++      "lib/internal/blob.js",
++      "lib/internal/blocklist.js",
++      "lib/internal/bootstrap/node.js",
++      "lib/internal/bootstrap/realm.js",
++      "lib/internal/bootstrap/shadow_realm.js",
++      "lib/internal/bootstrap/switches/does_not_own_process_state.js",
++      "lib/internal/bootstrap/switches/does_own_process_state.js",
++      "lib/internal/bootstrap/switches/is_main_thread.js",
++      "lib/internal/bootstrap/switches/is_not_main_thread.js",
++      "lib/internal/bootstrap/web/exposed-wildcard.js",
++      "lib/internal/bootstrap/web/exposed-window-or-worker.js",
++      "lib/internal/buffer.js",
++      "lib/internal/child_process.js",
++      "lib/internal/child_process/serialization.js",
++      "lib/internal/cli_table.js",
++      "lib/internal/cluster/child.js",
++      "lib/internal/cluster/primary.js",
++      "lib/internal/cluster/round_robin_handle.js",
++      "lib/internal/cluster/shared_handle.js",
++      "lib/internal/cluster/utils.js",
++      "lib/internal/cluster/worker.js",
++      "lib/internal/console/constructor.js",
++      "lib/internal/console/global.js",
++      "lib/internal/constants.js",
++      "lib/internal/crypto/aes.js",
++      "lib/internal/crypto/certificate.js",
++      "lib/internal/crypto/cfrg.js",
++      "lib/internal/crypto/cipher.js",
++      "lib/internal/crypto/diffiehellman.js",
++      "lib/internal/crypto/ec.js",
++      "lib/internal/crypto/hash.js",
++      "lib/internal/crypto/hashnames.js",
++      "lib/internal/crypto/hkdf.js",
++      "lib/internal/crypto/keygen.js",
++      "lib/internal/crypto/keys.js",
++      "lib/internal/crypto/mac.js",
++      "lib/internal/crypto/pbkdf2.js",
++      "lib/internal/crypto/random.js",
++      "lib/internal/crypto/rsa.js",
++      "lib/internal/crypto/scrypt.js",
++      "lib/internal/crypto/sig.js",
++      "lib/internal/crypto/util.js",
++      "lib/internal/crypto/webcrypto.js",
++      "lib/internal/crypto/webidl.js",
++      "lib/internal/crypto/x509.js",
++      "lib/internal/data_url.js",
++      "lib/internal/debugger/inspect.js",
++      "lib/internal/debugger/inspect_client.js",
++      "lib/internal/debugger/inspect_repl.js",
++      "lib/internal/dgram.js",
++      "lib/internal/dns/callback_resolver.js",
++      "lib/internal/dns/promises.js",
++      "lib/internal/dns/utils.js",
++      "lib/internal/encoding.js",
++      "lib/internal/error_serdes.js",
++      "lib/internal/errors.js",
++      "lib/internal/event_target.js",
++      "lib/internal/events/abort_listener.js",
++      "lib/internal/events/symbols.js",
++      "lib/internal/file.js",
++      "lib/internal/fixed_queue.js",
++      "lib/internal/freelist.js",
++      "lib/internal/freeze_intrinsics.js",
++      "lib/internal/fs/cp/cp-sync.js",
++      "lib/internal/fs/cp/cp.js",
++      "lib/internal/fs/dir.js",
++      "lib/internal/fs/glob.js",
++      "lib/internal/fs/promises.js",
++      "lib/internal/fs/read/context.js",
++      "lib/internal/fs/recursive_watch.js",
++      "lib/internal/fs/rimraf.js",
++      "lib/internal/fs/streams.js",
++      "lib/internal/fs/sync_write_stream.js",
++      "lib/internal/fs/utils.js",
++      "lib/internal/fs/watchers.js",
++      "lib/internal/heap_utils.js",
++      "lib/internal/histogram.js",
++      "lib/internal/http.js",
++      "lib/internal/http2/compat.js",
++      "lib/internal/http2/core.js",
++      "lib/internal/http2/util.js",
++      "lib/internal/inspector/network.js",
++      "lib/internal/inspector/network_http.js",
++      "lib/internal/inspector/network_undici.js",
++      "lib/internal/inspector_async_hook.js",
++      "lib/internal/inspector_network_tracking.js",
++      "lib/internal/js_stream_socket.js",
++      "lib/internal/legacy/processbinding.js",
++      "lib/internal/linkedlist.js",
++      "lib/internal/main/check_syntax.js",
++      "lib/internal/main/embedding.js",
++      "lib/internal/main/eval_stdin.js",
++      "lib/internal/main/eval_string.js",
++      "lib/internal/main/inspect.js",
++      "lib/internal/main/mksnapshot.js",
++      "lib/internal/main/print_help.js",
++      "lib/internal/main/prof_process.js",
++      "lib/internal/main/repl.js",
++      "lib/internal/main/run_main_module.js",
++      "lib/internal/main/test_runner.js",
++      "lib/internal/main/watch_mode.js",
++      "lib/internal/main/worker_thread.js",
++      "lib/internal/mime.js",
++      "lib/internal/modules/cjs/loader.js",
++      "lib/internal/modules/customization_hooks.js",
++      "lib/internal/modules/esm/assert.js",
++      "lib/internal/modules/esm/create_dynamic_module.js",
++      "lib/internal/modules/esm/formats.js",
++      "lib/internal/modules/esm/get_format.js",
++      "lib/internal/modules/esm/hooks.js",
++      "lib/internal/modules/esm/initialize_import_meta.js",
++      "lib/internal/modules/esm/load.js",
++      "lib/internal/modules/esm/loader.js",
++      "lib/internal/modules/esm/module_job.js",
++      "lib/internal/modules/esm/module_map.js",
++      "lib/internal/modules/esm/resolve.js",
++      "lib/internal/modules/esm/shared_constants.js",
++      "lib/internal/modules/esm/translators.js",
++      "lib/internal/modules/esm/utils.js",
++      "lib/internal/modules/esm/worker.js",
++      "lib/internal/modules/helpers.js",
++      "lib/internal/modules/package_json_reader.js",
++      "lib/internal/modules/run_main.js",
++      "lib/internal/modules/typescript.js",
++      "lib/internal/navigator.js",
++      "lib/internal/net.js",
++      "lib/internal/options.js",
++      "lib/internal/per_context/domexception.js",
++      "lib/internal/per_context/messageport.js",
++      "lib/internal/per_context/primordials.js",
++      "lib/internal/perf/event_loop_delay.js",
++      "lib/internal/perf/event_loop_utilization.js",
++      "lib/internal/perf/nodetiming.js",
++      "lib/internal/perf/observe.js",
++      "lib/internal/perf/performance.js",
++      "lib/internal/perf/performance_entry.js",
++      "lib/internal/perf/resource_timing.js",
++      "lib/internal/perf/timerify.js",
++      "lib/internal/perf/usertiming.js",
++      "lib/internal/perf/utils.js",
++      "lib/internal/priority_queue.js",
++      "lib/internal/process/execution.js",
++      "lib/internal/process/finalization.js",
++      "lib/internal/process/per_thread.js",
++      "lib/internal/process/permission.js",
++      "lib/internal/process/pre_execution.js",
++      "lib/internal/process/promises.js",
++      "lib/internal/process/report.js",
++      "lib/internal/process/signal.js",
++      "lib/internal/process/task_queues.js",
++      "lib/internal/process/warning.js",
++      "lib/internal/process/worker_thread_only.js",
++      "lib/internal/promise_hooks.js",
++      "lib/internal/querystring.js",
++      "lib/internal/quic/quic.js",
++      "lib/internal/quic/state.js",
++      "lib/internal/quic/stats.js",
++      "lib/internal/quic/symbols.js",
++      "lib/internal/readline/callbacks.js",
++      "lib/internal/readline/emitKeypressEvents.js",
++      "lib/internal/readline/interface.js",
++      "lib/internal/readline/promises.js",
++      "lib/internal/readline/utils.js",
++      "lib/internal/repl.js",
++      "lib/internal/repl/await.js",
++      "lib/internal/repl/history.js",
++      "lib/internal/repl/utils.js",
++      "lib/internal/socket_list.js",
++      "lib/internal/socketaddress.js",
++      "lib/internal/source_map/prepare_stack_trace.js",
++      "lib/internal/source_map/source_map.js",
++      "lib/internal/source_map/source_map_cache.js",
++      "lib/internal/source_map/source_map_cache_map.js",
++      "lib/internal/stream_base_commons.js",
++      "lib/internal/streams/add-abort-signal.js",
++      "lib/internal/streams/compose.js",
++      "lib/internal/streams/destroy.js",
++      "lib/internal/streams/duplex.js",
++      "lib/internal/streams/duplexify.js",
++      "lib/internal/streams/duplexpair.js",
++      "lib/internal/streams/end-of-stream.js",
++      "lib/internal/streams/from.js",
++      "lib/internal/streams/lazy_transform.js",
++      "lib/internal/streams/legacy.js",
++      "lib/internal/streams/operators.js",
++      "lib/internal/streams/passthrough.js",
++      "lib/internal/streams/pipeline.js",
++      "lib/internal/streams/readable.js",
++      "lib/internal/streams/state.js",
++      "lib/internal/streams/transform.js",
++      "lib/internal/streams/utils.js",
++      "lib/internal/streams/writable.js",
++      "lib/internal/test/binding.js",
++      "lib/internal/test/transfer.js",
++      "lib/internal/test_runner/assert.js",
++      "lib/internal/test_runner/coverage.js",
++      "lib/internal/test_runner/harness.js",
++      "lib/internal/test_runner/mock/loader.js",
++      "lib/internal/test_runner/mock/mock.js",
++      "lib/internal/test_runner/mock/mock_timers.js",
++      "lib/internal/test_runner/reporter/dot.js",
++      "lib/internal/test_runner/reporter/junit.js",
++      "lib/internal/test_runner/reporter/lcov.js",
++      "lib/internal/test_runner/reporter/spec.js",
++      "lib/internal/test_runner/reporter/tap.js",
++      "lib/internal/test_runner/reporter/utils.js",
++      "lib/internal/test_runner/reporter/v8-serializer.js",
++      "lib/internal/test_runner/runner.js",
++      "lib/internal/test_runner/snapshot.js",
++      "lib/internal/test_runner/test.js",
++      "lib/internal/test_runner/tests_stream.js",
++      "lib/internal/test_runner/utils.js",
++      "lib/internal/timers.js",
++      "lib/internal/tls/secure-context.js",
++      "lib/internal/tls/secure-pair.js",
++      "lib/internal/trace_events_async_hooks.js",
++      "lib/internal/tty.js",
++      "lib/internal/url.js",
++      "lib/internal/util.js",
++      "lib/internal/util/colors.js",
++      "lib/internal/util/comparisons.js",
++      "lib/internal/util/debuglog.js",
++      "lib/internal/util/diff.js",
++      "lib/internal/util/inspect.js",
++      "lib/internal/util/inspector.js",
++      "lib/internal/util/parse_args/parse_args.js",
++      "lib/internal/util/parse_args/utils.js",
++      "lib/internal/util/types.js",
++      "lib/internal/v8/startup_snapshot.js",
++      "lib/internal/v8_prof_polyfill.js",
++      "lib/internal/v8_prof_processor.js",
++      "lib/internal/validators.js",
++      "lib/internal/vm.js",
++      "lib/internal/vm/module.js",
++      "lib/internal/wasm_web_api.js",
++      "lib/internal/watch_mode/files_watcher.js",
++      "lib/internal/watchdog.js",
++      "lib/internal/webidl.js",
++      "lib/internal/webstorage.js",
++      "lib/internal/webstreams/adapters.js",
++      "lib/internal/webstreams/compression.js",
++      "lib/internal/webstreams/encoding.js",
++      "lib/internal/webstreams/queuingstrategies.js",
++      "lib/internal/webstreams/readablestream.js",
++      "lib/internal/webstreams/transfer.js",
++      "lib/internal/webstreams/transformstream.js",
++      "lib/internal/webstreams/util.js",
++      "lib/internal/webstreams/writablestream.js",
++      "lib/internal/worker.js",
++      "lib/internal/worker/clone_dom_exception.js",
++      "lib/internal/worker/io.js",
++      "lib/internal/worker/js_transferable.js",
++      "lib/internal/worker/messaging.js",
++      "lib/module.js",
++      "lib/net.js",
++      "lib/os.js",
++      "lib/path.js",
++      "lib/path/posix.js",
++      "lib/path/win32.js",
++      "lib/perf_hooks.js",
++      "lib/process.js",
++      "lib/punycode.js",
++      "lib/querystring.js",
++      "lib/readline.js",
++      "lib/readline/promises.js",
++      "lib/repl.js",
++      "lib/sea.js",
++      "lib/sqlite.js",
++      "lib/stream.js",
++      "lib/stream/consumers.js",
++      "lib/stream/promises.js",
++      "lib/stream/web.js",
++      "lib/string_decoder.js",
++      "lib/sys.js",
++      "lib/test.js",
++      "lib/test/reporters.js",
++      "lib/timers.js",
++      "lib/timers/promises.js",
++      "lib/tls.js",
++      "lib/trace_events.js",
++      "lib/tty.js",
++      "lib/url.js",
++      "lib/util.js",
++      "lib/util/types.js",
++      "lib/v8.js",
++      "lib/vm.js",
++      "lib/wasi.js",
++      "lib/worker_threads.js",
++      "lib/zlib.js"
++    ],
++    "node_module_version": 136,
++    "node_no_browser_globals": "false",
++    "node_prefix": "\\usr\\local",
++    "node_release_urlbase": "",
++    "node_shared": "false",
++    "node_shared_ada": "false",
++    "node_shared_brotli": "false",
++    "node_shared_cares": "false",
++    "node_shared_http_parser": "false",
++    "node_shared_libuv": "false",
++    "node_shared_nghttp2": "false",
++    "node_shared_nghttp3": "false",
++    "node_shared_ngtcp2": "false",
++    "node_shared_openssl": "false",
++    "node_shared_simdjson": "false",
++    "node_shared_simdutf": "false",
++    "node_shared_sqlite": "false",
++    "node_shared_uvwasi": "false",
++    "node_shared_zlib": "false",
++    "node_shared_zstd": "false",
++    "node_tag": "",
++    "node_target_type": "executable",
++    "node_use_amaro": "true",
++    "node_use_bundled_v8": "true",
++    "node_use_node_code_cache": "true",
++    "node_use_node_snapshot": "true",
++    "node_use_openssl": "true",
++    "node_use_sqlite": "true",
++    "node_use_v8_platform": "true",
++    "node_with_ltcg": "true",
++    "node_without_node_options": "false",
++    "node_write_snapshot_as_array_literals": "true",
++    "openssl_is_fips": "false",
++    "openssl_no_asm": 1,
++    "openssl_quic": "false",
++    "ossfuzz": "false",
++    "shlib_suffix": "so.127",
++    "single_executable_application": "true",
++    "suppress_all_error_on_warn": "false",
++    "target_arch": "x64",
++    "ubsan": 0,
++    "use_ccache_win": 0,
++    "use_prefix_to_find_headers": "false",
++    "using_electron_config_gypi": 1,
++    "v8_enable_31bit_smis_on_64bit_arch": 1,
++    "v8_enable_extensible_ro_snapshot": 0,
++    "v8_enable_external_code_space": 1,
++    "v8_enable_gdbjit": 0,
++    "v8_enable_hugepage": 0,
++    "v8_enable_i18n_support": 1,
++    "v8_enable_inspector": 1,
++    "v8_enable_javascript_promise_hooks": 1,
++    "v8_enable_lite_mode": 0,
++    "v8_enable_maglev": 0,
++    "v8_enable_object_print": 1,
++    "v8_enable_pointer_compression": 1,
++    "v8_enable_pointer_compression_shared_cage": 1,
++    "v8_enable_sandbox": 1,
++    "v8_enable_shared_ro_heap": 0,
++    "v8_enable_short_builtin_calls": 1,
++    "v8_enable_wasm_simd256_revec": 1,
++    "v8_enable_webassembly": 1,
++    "v8_optimized_debug": 1,
++    "v8_promise_internal_field_count": 1,
++    "v8_random_seed": 0,
++    "v8_trace_maps": 0,
++    "v8_use_siphash": 1,
++    "want_separate_host_toolset": 0,
++    "nodedir": "C:\\Users\\Lucas Matheus\\.electron-gyp\\37.4.0",
++    "python": "C:\\Python313\\python.exe",
++    "standalone_static_library": 1,
++    "msbuild_path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
++    "runtime": "electron",
++    "target": "37.4.0",
++    "build_from_source": "true",
++    "module_name": "node_printer",
++    "module_path": "C:\\Users\\Lucas Matheus\\Documents\\Projects\\printer-proxy\\node_modules\\@grandchef\\node-printer\\lib",
++    "host": "https://github.com/grandchef/node-printer/releases/download/",
++    "remote_path": "v0.8.0",
++    "cache": "C:\\Users\\Lucas Matheus\\AppData\\Local\\npm-cache",
++    "globalconfig": "C:\\nvm4w\\nodejs\\etc\\npmrc",
++    "global_prefix": "C:\\nvm4w\\nodejs",
++    "init_module": "C:\\Users\\Lucas Matheus\\.npm-init.js",
++    "local_prefix": "C:\\Users\\Lucas Matheus\\Documents\\Projects\\printer-proxy",
++    "node_gyp": "C:\\Users\\Lucas Matheus\\AppData\\Local\\nvm\\v18.20.8\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js",
++    "npm_version": "10.8.2",
++    "prefix": "C:\\nvm4w\\nodejs",
++    "userconfig": "C:\\Users\\Lucas Matheus\\.npmrc",
++    "user_agent": "npm/10.8.2 node/v18.20.8 win32 x64 workspaces/false"
++  }
++}
+diff --git a/node_modules/@grandchef/node-printer/build/node_printer.vcxproj b/node_modules/@grandchef/node-printer/build/node_printer.vcxproj
+new file mode 100644
+index 0000000..a3e0721
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/node_printer.vcxproj
+@@ -0,0 +1,155 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{0690D73F-8713-396D-99D3-EF1BC20D3ED0}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++    <RootNamespace>node_printer</RootNamespace>
++    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
++    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
++    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
++  <PropertyGroup Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++  </PropertyGroup>
++  <PropertyGroup Label="Locals">
++    <PlatformToolset>v143</PlatformToolset>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
++  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props"/>
++  <ImportGroup Label="ExtensionSettings"/>
++  <ImportGroup Label="PropertySheets">
++    <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"/>
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros"/>
++  <PropertyGroup>
++    <ExecutablePath>$(ExecutablePath);$(MSBuildProjectDirectory)\..\bin\;$(MSBuildProjectDirectory)\..\bin\</ExecutablePath>
++    <IgnoreImportLibrary>true</IgnoreImportLibrary>
++    <IntDir>$(Configuration)\obj\$(ProjectName)\</IntDir>
++    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
++    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
++    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
++    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.node</TargetExt>
++    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.node</TargetExt>
++    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.node</TargetExt>
++    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.node</TargetExt>
++    <TargetName>$(ProjectName)</TargetName>
++    <TargetPath>$(OutDir)\$(ProjectName).node</TargetPath>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;..\..\..\nan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalOptions>/Zc:__cplusplus -std:c++20 /Zm2000 -std:c++20 %(AdditionalOptions)</AdditionalOptions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <BufferSecurityCheck>true</BufferSecurityCheck>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
++      <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++      <ExceptionHandling>false</ExceptionHandling>
++      <MinimalRebuild>false</MinimalRebuild>
++      <MultiProcessorCompilation>true</MultiProcessorCompilation>
++      <OmitFramePointers>false</OmitFramePointers>
++      <Optimization>Disabled</Optimization>
++      <PrecompiledHeader>NotUsing</PrecompiledHeader>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=node_printer;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <StringPooling>true</StringPooling>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TreatWarningAsError>false</TreatWarningAsError>
++      <WarningLevel>Level3</WarningLevel>
++      <WholeProgramOptimization>true</WholeProgramOptimization>
++    </ClCompile>
++    <Lib>
++      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
++    </Lib>
++    <Link>
++      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Lucas Matheus\\.electron-gyp\\37.4.0\\x64\\node.lib&quot;</AdditionalDependencies>
++      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
++      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <OptimizeReferences>true</OptimizeReferences>
++      <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TargetExt>.node</TargetExt>
++      <TargetMachine>MachineX64</TargetMachine>
++    </Link>
++    <ResourceCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;..\..\..\nan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=node_printer;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
++    </ResourceCompile>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;..\..\..\nan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalOptions>/Zc:__cplusplus -std:c++20 /Zm2000 -std:c++20 %(AdditionalOptions)</AdditionalOptions>
++      <BufferSecurityCheck>true</BufferSecurityCheck>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
++      <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++      <ExceptionHandling>false</ExceptionHandling>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <FunctionLevelLinking>true</FunctionLevelLinking>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <MultiProcessorCompilation>true</MultiProcessorCompilation>
++      <OmitFramePointers>true</OmitFramePointers>
++      <Optimization>Full</Optimization>
++      <PrecompiledHeader>NotUsing</PrecompiledHeader>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=node_printer;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <RuntimeTypeInfo>false</RuntimeTypeInfo>
++      <StringPooling>true</StringPooling>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TreatWarningAsError>false</TreatWarningAsError>
++      <WarningLevel>Level3</WarningLevel>
++      <WholeProgramOptimization>true</WholeProgramOptimization>
++    </ClCompile>
++    <Lib>
++      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
++    </Lib>
++    <Link>
++      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Lucas Matheus\\.electron-gyp\\37.4.0\\x64\\node.lib&quot;</AdditionalDependencies>
++      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
++      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <OptimizeReferences>true</OptimizeReferences>
++      <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
++      <SuppressStartupBanner>true</SuppressStartupBanner>
++      <TargetExt>.node</TargetExt>
++      <TargetMachine>MachineX64</TargetMachine>
++    </Link>
++    <ResourceCompile>
++      <AdditionalIncludeDirectories>C:\Users\Lucas Matheus\.electron-gyp\37.4.0\include\node;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\src;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\config;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\openssl\openssl\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\uv\include;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\zlib;C:\Users\Lucas Matheus\.electron-gyp\37.4.0\deps\v8\include;..\..\..\nan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=node_printer;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;_FILE_OFFSET_BITS=64;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_SHARED_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;V8_EXTERNAL_CODE_SPACE;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;NOMINMAX;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
++    </ResourceCompile>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <None Include="..\binding.gyp"/>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\src\node_printer.cc">
++      <ObjectFileName>$(IntDir)\src\node_printer.obj</ObjectFileName>
++    </ClCompile>
++    <ClCompile Include="..\src\node_printer_win.cc">
++      <ObjectFileName>$(IntDir)\src\node_printer_win.obj</ObjectFileName>
++    </ClCompile>
++    <ClCompile Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc"/>
++    <ClCompile Include="..\src\node_printer_posix.cc">
++      <ExcludedFromBuild>true</ExcludedFromBuild>
++      <ObjectFileName>$(IntDir)\src\node_printer_posix.obj</ObjectFileName>
++    </ClCompile>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
++  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets"/>
++  <ImportGroup Label="ExtensionTargets"/>
++</Project>
+diff --git a/node_modules/@grandchef/node-printer/build/node_printer.vcxproj.filters b/node_modules/@grandchef/node-printer/build/node_printer.vcxproj.filters
+new file mode 100644
+index 0000000..6643b30
+--- /dev/null
++++ b/node_modules/@grandchef/node-printer/build/node_printer.vcxproj.filters
+@@ -0,0 +1,76 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="..">
++      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..\src">
++      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..">
++      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..\src">
++      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:">
++      <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users">
++      <UniqueIdentifier>{E9F714C1-DA89-54E2-60CF-39FEB20BF756}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus">
++      <UniqueIdentifier>{9F3B18AE-0294-48C7-83D9-AB97C417AD7F}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents">
++      <UniqueIdentifier>{87566BA0-CA33-1144-65F5-087C5F9D6C20}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects">
++      <UniqueIdentifier>{7CAFA559-49D5-0913-BD41-C91CD6F35482}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy">
++      <UniqueIdentifier>{77F7163B-3F9F-FC47-27E0-7315345D8946}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules">
++      <UniqueIdentifier>{56DF7A98-063D-FB9D-485C-089023B4C16A}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron">
++      <UniqueIdentifier>{6FD122B1-87CE-5BE7-127F-692B6E499EA3}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp">
++      <UniqueIdentifier>{77348C0E-2034-7791-74D5-63C077DF5A3B}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src">
++      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..">
++      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..">
++      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..\src">
++      <UniqueIdentifier>{8CDEE807-BC53-E450-C8B8-4DEBB66742D4}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="..\src\_excluded_files">
++      <UniqueIdentifier>{158E591E-B6EA-0C85-8F5A-18EAFA09B4CE}</UniqueIdentifier>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\src\node_printer.cc">
++      <Filter>..\src</Filter>
++    </ClCompile>
++    <ClCompile Include="..\src\node_printer_win.cc">
++      <Filter>..\src</Filter>
++    </ClCompile>
++    <ClCompile Include="C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc">
++      <Filter>C:\Users\Lucas Matheus\Documents\Projects\printer-proxy\node_modules\@electron\node-gyp\src</Filter>
++    </ClCompile>
++    <None Include="..\binding.gyp">
++      <Filter>..</Filter>
++    </None>
++    <ClCompile Include="..\src\node_printer_posix.cc">
++      <Filter>..\src\_excluded_files</Filter>
++    </ClCompile>
++  </ItemGroup>
++</Project>
+diff --git a/node_modules/@grandchef/node-printer/lib/node_printer.node b/node_modules/@grandchef/node-printer/lib/node_printer.node
+index 302f03c..b13ca9e 100644
+Binary files a/node_modules/@grandchef/node-printer/lib/node_printer.node and b/node_modules/@grandchef/node-printer/lib/node_printer.node differ

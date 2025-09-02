@@ -1,27 +1,15 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
     "outDir": "dist-runtime",
-    "rootDir": ".",
-    "typeRoots": [
-      "./src/types",
-      "./node_modules/@types"
-    ]
+    "rootDir": "."
   },
   "include": [
-    "server.ts",
-    "src/**/*",
-    "src/printing/**/*",
-    "config/**/*",
-    "electron"
+    "src/**/*.ts",
+    "server.ts"
   ],
   "exclude": [
+    "electron",
     "dist-runtime",
     "dist-electron",
     "node_modules"

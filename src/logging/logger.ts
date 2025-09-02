@@ -7,7 +7,7 @@ import { LoggerMap } from '../types';
 const {
   LOG_DIR = 'logs',
   LOG_LEVEL = 'info',
-  LOG_ROTATE = 'true',
+  LOG_ROTATE = 'false',
   LOG_MAX_SIZE_MB = '10',
   LOG_MAX_FILES = '14d'
 } = process.env

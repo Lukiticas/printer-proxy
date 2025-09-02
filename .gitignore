@@ -8,6 +8,7 @@ yarn-error.log*
 # Build output
 dist/
 dist-runtime/
+dist-electron/
 data/
 build/
 out/
