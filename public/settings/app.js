@@ -232,10 +232,96 @@ function attachEvents() {
   }, 5000);
 }
 
+const sec = {
+  whitelistEl: null,
+  blacklistEl: null,
+  pendingEl: null,
+  btnSecRefresh: null
+};
+
+function initSecurityUIRefs() {
+  sec.whitelistEl = document.getElementById('whitelistList');
+  sec.blacklistEl = document.getElementById('blacklistList');
+  sec.pendingEl = document.getElementById('pendingList');
+  sec.btnSecRefresh = document.getElementById('btnSecurityRefresh');
+  if (sec.btnSecRefresh) {
+    sec.btnSecRefresh.addEventListener('click', refreshSecurityState);
+  }
+}
+
+async function refreshSecurityState() {
+  try {
+    const st = await api('/security/state');
+    renderList(sec.whitelistEl, st.whitelist, 'whitelist');
+    renderList(sec.blacklistEl, st.blacklist, 'blacklist');
+    renderPending(st.pending);
+  } catch (e) {
+    showMessage('Security state load failed: ' + e.message, 'error');
+  }
+}
+
+function renderList(container, items, listType) {
+  if (!container) return;
+  container.innerHTML = '';
+  if (!items.length) {
+    const p = document.createElement('div');
+    p.className = 'empty';
+    p.textContent = '(empty)';
+    container.appendChild(p);
+    return;
+  }
+  items.forEach(host => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const span = document.createElement('span');
+    span.textContent = host;
+    const btn = document.createElement('button');
+    btn.textContent = 'Remove';
+    btn.className = 'tiny danger';
+    btn.onclick = () => removeEntry(listType, host);
+    row.appendChild(span);
+    row.appendChild(btn);
+    container.appendChild(row);
+  });
+}
+
+async function removeEntry(listType, host) {
+  try {
+    const url = `/security/${listType}/${encodeURIComponent(host)}`;
+    await fetch(url, { method: 'DELETE' });
+    showMessage(`Removed ${host} from ${listType}`, 'success');
+    refreshSecurityState();
+  } catch (e) {
+    showMessage('Remove failed: ' + e.message, 'error');
+  }
+}
+
+function renderPending(pending) {
+  if (!sec.pendingEl) return;
+  sec.pendingEl.innerHTML = '';
+  if (!pending.length) {
+    const p = document.createElement('div');
+    p.className = 'empty';
+    p.textContent = '(none)';
+    sec.pendingEl.appendChild(p);
+    return;
+  }
+  pending.forEach(pe => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const span = document.createElement('span');
+    span.textContent = `${pe.host} (${pe.action}) attempts:${pe.attempts}`;
+    row.appendChild(span);
+    sec.pendingEl.appendChild(row);
+  });
+}
+
 (async function init() {
   attachEvents();
+  initSecurityUIRefs();
   try {
     await loadAll();
+    await refreshSecurityState();
   } catch (e) {
     showMessage('Initial load failed: ' + e.message, 'error', 10000);
   }

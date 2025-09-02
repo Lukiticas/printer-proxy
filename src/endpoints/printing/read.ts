@@ -1,28 +1,26 @@
 import { Request, Response, RequestHandler } from 'express';
 import PrinterManager from '../../printer-manager';
-import { ReadRequestBody, ReadResponseBody } from '../../types';
+import { PrinterJobRequestBody, PrinterJobResponseBody } from '../../types';
 import { loggers } from '../../logging/logger';
 
-export default function readEndpoint(
-  manager: PrinterManager
-): RequestHandler {
+export default function readEndpoint(manager: PrinterManager): RequestHandler {
   return async (
-    req: Request<unknown, unknown, ReadRequestBody>,
-    res: Response<ReadResponseBody | { error: string }>
+    req: Request<unknown, unknown, PrinterJobRequestBody>,
+    res: Response<PrinterJobResponseBody | { error: string }>
   ) => {
     try {
       const body = req.body || {};
 
-      const parseIfString: ReadRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
-      const { printer, command } = parseIfString;
+      const parseIfString: PrinterJobRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
+      const { printer, data } = parseIfString;
 
-      const status = await manager.queryStatus(printer, command || '~HQES');
+      const jobId = await manager.sendRaw(printer, data || '~HQES');
 
       res.json({
         success: true,
+        jobId,
         printer: printer || 'default',
-        command: command || '~HQES',
-        status,
+        message: 'Print job submitted',
         timestamp: new Date().toISOString(),
       });
     } catch (e: any) {
@@ -31,7 +29,7 @@ export default function readEndpoint(
       res.status(500).json({
         success: false,
         printer: req.body?.printer,
-        command: req.body?.command,
+        message: req.body?.data,
         error: e.message || 'Status query failed',
         timestamp: new Date().toISOString(),
       });

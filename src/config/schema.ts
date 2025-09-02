@@ -11,7 +11,8 @@ export function defaultSettings(): SettingsData {
         security: {
             mode: 'allowAll',
             whitelist: [],
-            blacklist: []
+            blacklist: [],
+            promptMode: 'popup'
         },
         ui: {}
     };

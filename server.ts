@@ -11,8 +11,14 @@ import { loggers, setupGlobalExceptionLogging } from './src/logging/logger';
 import { ConfigService } from './src/config/config-service';
 import { configRouter } from './src/endpoints/config';
 import { printingRouter } from './src/endpoints/printing';
+import { PowerShellPromptProvider } from './src/security/powershell-provider';
+import { SecurityService } from './src/security/security-service';
+import { securityMiddleware } from './src/middleware/security';
+import { securityRouter } from './src/endpoints/security';
 
 const app = express();
+const printerManager = new PrinterManager();
+const configService = new ConfigService(undefined);
 
 async function bootstrap() {
   setupGlobalExceptionLogging();
@@ -23,14 +29,19 @@ async function bootstrap() {
   app.use(bodyParser.text({ limit: '512kb', type: 'text/plain' }));
   app.use(requestLogger());
 
-  const printerManager = new PrinterManager();
-  const configService = new ConfigService(undefined);
   await configService.init(printerManager)
+  printerManager.setConfigService(configService);
 
   const settings = configService.get();
 
-  app.use('/', printingRouter(printerManager));
+  const promptProvider = new PowerShellPromptProvider();
+  const securityService = new SecurityService(configService, promptProvider);
+
+  app.use(securityMiddleware(securityService));
+
+  app.use('/', printingRouter(configService, printerManager));
   app.use('/config', configRouter(configService, printerManager));
+  app.use('/security', securityRouter(securityService));
   app.get('/health', healthEndpoint());
 
   const staticRoot = path.join(process.cwd(), 'public', 'settings');

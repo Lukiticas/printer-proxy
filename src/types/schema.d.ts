@@ -2,6 +2,7 @@ export interface SecurityConfig {
   mode: 'allowAll';
   whitelist: string[];
   blacklist: string[];
+  promptMode?: 'popup'; 
 }
 
 export interface UIConfig {

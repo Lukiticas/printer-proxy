@@ -66,10 +66,12 @@ function buildLogger(category: string, baseLevel = LOG_LEVEL): Logger {
         category === 'api'
           ? 'api.log'
           : category === 'printing'
-          ? 'printing.log'
-          : category === 'errors'
-          ? 'errors.log'
-          : 'app.log',
+            ? 'printing.log'
+            : category === 'errors'
+              ? 'errors.log'
+              : category === 'security'
+                ? 'security.log'
+                : 'app.log',
         baseLevel
       ),
 
@@ -77,7 +79,7 @@ function buildLogger(category: string, baseLevel = LOG_LEVEL): Logger {
         level: baseLevel,
         format: format.combine(
           format.colorize(),
-            format.timestamp(),
+          format.timestamp(),
           format.printf(info => {
             const { timestamp, level, message, stack, ...rest } = info;
             const meta = Object.keys(rest).length
@@ -97,6 +99,7 @@ export const loggers: LoggerMap = {
   api: buildLogger('api'),
   printing: buildLogger('printing'),
   errors: buildLogger('errors', 'error'),
+  security: buildLogger('security'),
 };
 
 export function mirrorError(err: any, context: Record<string, unknown> = {}) {

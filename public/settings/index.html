@@ -34,11 +34,26 @@
       <button id="btnRefreshPrinters" class="secondary">Refresh Printers</button>
     </section>
 
-    <section class="card disabled">
-      <h2>Whitelist / Blacklist (Coming Soon)</h2>
-      <p class="disabled-text">
-        This area will allow you to manage allowed and blocked origins for print requests.
-      </p>
+    <section class="card">
+      <h2>Security (Whitelist / Blacklist)</h2>
+      <div class="security-lists">
+        <div class="list-block">
+          <h3>Whitelist</h3>
+          <div id="whitelistList" class="list"></div>
+        </div>
+        <div class="list-block">
+          <h3>Blacklist</h3>
+          <div id="blacklistList" class="list"></div>
+        </div>
+        <div class="list-block">
+          <h3>Pending (Prompts)</h3>
+          <div id="pendingList" class="list"></div>
+        </div>
+      </div>
+      <button id="btnSecurityRefresh" class="secondary">Refresh Security State</button>
+      <small class="hint">
+        Unknown hosts trigger a popup. Decisions apply immediately.
+      </small>
     </section>
 
     <section class="actions">

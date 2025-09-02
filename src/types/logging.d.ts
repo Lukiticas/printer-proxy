@@ -6,6 +6,7 @@ interface LoggerMap {
   api: Logger;
   printing: Logger;
   errors: Logger;
+  security: Logger;
 }
 
 interface ResponseMetaTracking extends Response {

@@ -1,17 +1,17 @@
 import { Request, Response, RequestHandler } from 'express';
 import PrinterManager from '../../printer-manager';
-import { WriteRequestBody, WriteResponseBody } from '../../types';
+import { PrinterJobRequestBody, PrinterJobResponseBody } from '../../types';
 import { loggers } from '../../logging/logger';
 
 export default function writeEndpoint(manager: PrinterManager): RequestHandler {
   return async (
-    req: Request<unknown, unknown, WriteRequestBody>,
-    res: Response<WriteResponseBody | { error: string }>
+    req: Request<unknown, unknown, PrinterJobRequestBody>,
+    res: Response<PrinterJobResponseBody | { error: string }>
   ) => {
     try {
       const body = req.body || {};
 
-      const parseIfString: WriteRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
+      const parseIfString: PrinterJobRequestBody = typeof body === 'string' ? JSON.parse(body) : body;
 
       const { data, printer } = parseIfString;
 

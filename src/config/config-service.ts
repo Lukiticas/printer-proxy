@@ -163,6 +163,42 @@ export class ConfigService {
     }
   }
 
+  addToWhitelist(host: string) {
+    if (!this.settings.security.whitelist.includes(host)) {
+      this.settings.security.whitelist.push(host);
+      this.settings.security.blacklist = this.settings.security.blacklist.filter(h => h !== host);
+      this.save();
+    }
+  }
+
+  addToBlacklist(host: string) {
+    if (!this.settings.security.blacklist.includes(host)) {
+      this.settings.security.blacklist.push(host);
+      this.settings.security.whitelist = this.settings.security.whitelist.filter(h => h !== host);
+      this.save();
+    }
+  }
+
+  removeWhitelist(host: string) {
+    this.settings.security.whitelist = this.settings.security.whitelist.filter(h => h !== host);
+    this.save();
+  }
+
+  removeBlacklist(host: string) {
+    this.settings.security.blacklist = this.settings.security.blacklist.filter(h => h !== host);
+    this.save();
+  }
+
+  clearDefaultPrinter() {
+    this.settings.defaultPrinter = undefined;
+    this.save();
+  }
+
+  setDefaultPrinter(name: string) {
+    this.settings.defaultPrinter = name;
+    this.save();
+  }
+
   runtimeInfo(printers: string[]) {
     const stale = !!(this.settings.defaultPrinter && !printers.includes(this.settings.defaultPrinter));
 

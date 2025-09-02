@@ -1,71 +1,63 @@
 import printerLib = require('@grandchef/node-printer');
-import {
-  DiscoveredPrinter,
-  BasicPrinterStatus,
-  StoredDefaultPrinter
-} from './types';
-import { DefaultPrinterStore } from './default-printer-store';
-import pkg from '../package.json'
-import { loggers } from './logging/logger';
 import crypto from 'crypto';
+import { loggers } from './logging/logger';
+import { DiscoveredPrinter } from './types';
+import { ConfigService } from './config/config-service';
 
 export default class PrinterManager {
   private cache: DiscoveredPrinter[] = [];
   private lastRefresh = 0;
   private readonly refreshIntervalMs = 15_000;
-  private store: DefaultPrinterStore;
   private truncBytes = Number(process.env.PRINT_LOG_TRUNCATE_BYTES || '512');
   private explicitDefault?: string;
-
-  constructor(store?: DefaultPrinterStore) {
-    this.store = store || new DefaultPrinterStore();
-  }
+  private configService?: ConfigService;
 
   setExplicitDefault(name: string) {
     this.explicitDefault = name;
     loggers.printing.info('ExplicitDefaultSet', { name });
   }
 
+  getExplicitDefault() {
+    return this.explicitDefault;
+  }
+
+  setConfigService(service: ConfigService) {
+    this.configService = service;
+  }
+
   private async refresh(force = false): Promise<void> {
     const now = Date.now();
 
-    if (
-      !force &&
-      this.cache.length > 0 &&
-      now - this.lastRefresh < this.refreshIntervalMs
-    ) {
+    if (!force && this.cache.length > 0 && now - this.lastRefresh < this.refreshIntervalMs) {
       return;
     }
 
-    this.cache = await new Promise<DiscoveredPrinter[]>((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       try {
         const printers: printerLib.PrinterDetails[] = printerLib.getPrinters();
 
-        const mapped: DiscoveredPrinter[] = (printers || []).map((p) => ({
+        this.cache = (printers || []).map(p => ({
           name: p.name,
           connection: p.options?.port?.toUpperCase().includes('USB') ? 'USB' : 'System',
           isDefault: p.isDefault,
-          status: p.options?.status ?? 'Unknown',
+          status: p.options?.status,
           uid: p.name,
           lastSeen: Date.now(),
-          manufacturer: p.options?.manufacturer,
-          origin: pkg.name,
-        }));
+        } as DiscoveredPrinter));
 
         loggers.printing.info('EnumeratedPrinters', {
           count: this.cache.length,
           names: this.cache.map(p => p.name),
         });
 
-        resolve(mapped);
+        this.lastRefresh = now;
+
+        resolve();
       } catch (err: any) {
         loggers.printing.error('EnumerateFailed', { error: err.message });
-
-        reject(err);
+        return reject(err);
       }
     });
-
-    this.lastRefresh = now;
   }
 
   async list(): Promise<DiscoveredPrinter[]> {
@@ -73,62 +65,58 @@ export default class PrinterManager {
     return this.cache;
   }
 
-  private isLabel(printer: DiscoveredPrinter): boolean {
-    return /elgin|zebra|label|thermal/i.test(printer.name);
-  }
+  async getDefaultPrinter(): Promise<DiscoveredPrinter | undefined> {
+    const printers = await this.list();
 
-  async getDefaultResolved(): Promise<DiscoveredPrinter | null> {
-    await this.refresh();
-
-    const loaded = this.store.load();
-    const pinnedName = loaded.record?.name;
-    let pinnedPrinter: DiscoveredPrinter | undefined;
-
-    if (pinnedName) {
-      pinnedPrinter = this.cache.find((p) => p.name === pinnedName);
+    if (this.explicitDefault) {
+      return printers.find(p => p.name === this.explicitDefault);
     }
 
-    if (pinnedPrinter) {
-      return pinnedPrinter
-    }
-
-    const fallback =
-      this.cache.find((p) => p.isDefault && this.isLabel(p)) ||
-      this.cache.find((p) => this.isLabel(p)) ||
-      null;
-
-    return fallback;
+    return printers.find(p => p.isDefault) || undefined;
   }
 
-  async getDefault(): Promise<DiscoveredPrinter | null> {
-    return await this.getDefaultResolved();
+  async clearDefaultPrinter(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (this.configService) {
+          this.configService.clearDefaultPrinter();
+        }
+
+        this.explicitDefault = undefined;
+
+        await this.refresh(true);
+
+        resolve()
+      } catch (err: any) {
+        loggers.printing.error('ClearDefaultFailed', { error: err.message });
+        return reject(err);
+      }
+    })
   }
 
-  async setPinnedDefault(name: string, pinned = true): Promise<StoredDefaultPrinter> {
-    await this.refresh();
+  async setDefaultPrinter(name: string): Promise<DiscoveredPrinter | undefined> {
+    return new Promise<DiscoveredPrinter | undefined>(async (resolve, reject) => {
+      try {
+        if (this.configService) {
+          this.configService.setDefaultPrinter(name);
+        }
 
-    const target = this.cache.find((p) => p.name === name);
+        this.setExplicitDefault(name);
 
-    if (!target) {
-      throw new Error(`Printer '${name}' not found in current list`);
-    }
+        await this.refresh(true);
 
-    const record: StoredDefaultPrinter = {
-      name: target.name,
-      savedAt: new Date().toISOString(),
-      pinned,
-      meta: {
-        lastSeenAtSave: target.lastSeen,
-      },
-    };
+        const printer = this.cache.find(p => p.name === name);
 
-    this.store.save(record);
+        if (!printer) {
+          throw new Error(`Printer '${name}' not found`);
+        }
 
-    return record;
-  }
-
-  clearPinnedDefault(): void {
-    this.store.clear();
+        resolve(printer);
+      } catch (err: any) {
+        loggers.printing.error('SetDefaultRefreshFailed', { error: err.message });
+        return reject(err);
+      }
+    })
   }
 
   private resolve(name?: string): string {
@@ -144,6 +132,7 @@ export default class PrinterManager {
 
     if (this.explicitDefault) {
       const exists = this.cache.find(p => p.name === this.explicitDefault);
+
       if (exists) {
         return exists.name;
       }
@@ -162,9 +151,13 @@ export default class PrinterManager {
     await this.refresh();
 
     const target = this.resolve(printerName);
+    const rawBuffer = Buffer.isBuffer(data)
+      ? data
+      : Buffer.from(data, 'utf8');
+    const hash = crypto.createHash('md5')
+      .update(rawBuffer)
+      .digest('hex');
 
-    const rawBuffer = Buffer.isBuffer(data) ? data : Buffer.from(data, 'utf8');
-    const hash = crypto.createHash('md5').update(rawBuffer).digest('hex');
     const preview = rawBuffer.length > this.truncBytes
       ? rawBuffer.slice(0, this.truncBytes).toString('latin1') + '...[truncated]'
       : rawBuffer.toString('latin1');
@@ -201,15 +194,5 @@ export default class PrinterManager {
         },
       });
     });
-  }
-
-  async queryStatus(printerName: string | undefined, command: string): Promise<BasicPrinterStatus> {
-    await this.sendRaw(printerName, command);
-
-    return {
-      online: true,
-      message: 'Command dispatched',
-      raw: command,
-    };
   }
 }

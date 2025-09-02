@@ -40,7 +40,7 @@ export interface AvailablePrintersResponse {
 }
 
 export interface DefaultPrinterResponse {
-  printer: DiscoveredPrinter | null;
+  printer: DiscoveredPrinter | undefined;
   timestamp: string;
 }
 
@@ -51,39 +51,21 @@ export interface SetDefaultPrinterRequest {
 
 export interface SetDefaultPrinterResponse {
   success: boolean;
-  saved?: {
-    name: string;
-    pinned: boolean;
-    savedAt: string;
-  };
+  saved?: DiscoveredPrinter;
   error?: string;
   timestamp: string;
 }
 
-export interface WriteRequestBody {
+export interface PrinterJobRequestBody {
   printer?: string;
   data: string;
 }
 
-export interface WriteResponseBody {
+export interface PrinterJobResponseBody {
   success: boolean;
   jobId?: string;
   printer?: string;
   message?: string;
-  timestamp: string;
-  error?: string;
-}
-
-export interface ReadRequestBody {
-  printer?: string;
-  command?: string;
-}
-
-export interface ReadResponseBody {
-  success: boolean;
-  printer?: string;
-  command?: string;
-  status?: BasicPrinterStatus;
   timestamp: string;
   error?: string;
 }
@@ -94,4 +76,10 @@ export interface HealthResponse {
   timestamp: string;
   version?: string;
   error?: string;
+}
+
+export interface ErrorResponse {
+  success: false;
+  error: string;
+  timestamp: string;
 }

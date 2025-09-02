@@ -4,8 +4,9 @@ import availableEndpoint from './available';
 import defaultEndpoint from './default';
 import writeEndpoint from './write';
 import readEndpoint from './read';
+import { ConfigService } from "../../config/config-service";
 
-export function printingRouter(manager: PrinterManager): Router {
+export function printingRouter(config: ConfigService, manager: PrinterManager): Router {
   const router = Router();
 
   router.get('/available', availableEndpoint(manager));

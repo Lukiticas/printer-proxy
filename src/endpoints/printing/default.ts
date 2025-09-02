@@ -9,7 +9,7 @@ import { loggers } from '../../logging/logger';
 
 const handleGet = async (_req: Request, res: Response, manager: PrinterManager) => {
   try {
-    const printer = await manager.getDefaultResolved();
+    const printer = await manager.getDefaultPrinter();
 
     const body: DefaultPrinterResponse = {
       printer: printer,
@@ -41,15 +41,15 @@ const handlePost = async (req: Request, res: Response, manager: PrinterManager) 
       } as SetDefaultPrinterResponse);
     }
 
-    const record = await manager.setPinnedDefault(body.name, body.pinned ?? true);
+    const record = await manager.setDefaultPrinter(body.name);
+
+    if (!record) {
+      throw new Error(`Printer "${body.name}" not found`);
+    }
 
     return res.json({
       success: true,
-      saved: {
-        name: record.name,
-        pinned: record.pinned,
-        savedAt: record.savedAt,
-      },
+      saved: record,
       timestamp: new Date().toISOString(),
     } as SetDefaultPrinterResponse);
   } catch (e: any) {
@@ -65,7 +65,7 @@ const handlePost = async (req: Request, res: Response, manager: PrinterManager) 
 
 const handleDelete = async (_req: Request, res: Response, manager: PrinterManager) => {
   try {
-    manager.clearPinnedDefault();
+    manager.clearDefaultPrinter()
 
     return res.json({
       success: true,
@@ -100,9 +100,7 @@ const forwardHandler = (req: Request, res: Response, manager: PrinterManager) =>
   return res.status(405).json({ error: 'Method not allowed' });
 };
 
-export default function defaultEndpoint(
-  manager: PrinterManager
-): RequestHandler {
+export default function defaultEndpoint(manager: PrinterManager): RequestHandler {
   return async (req: Request, res: Response) => {
     return forwardHandler(req, res, manager);
   };
