@@ -1,9 +1,11 @@
 {
   "name": "elgin-printer-proxy",
-  "description": "HTTP proxy for Elgin thermal printers",
+  "description": "Proxy de Impressão para Impressoras Elgin",
   "version": "0.3.0",
   "private": true,
   "main": "dist-electron/electron/index.js",
+  "author": "You",
+  "license": "MIT",
   "scripts": {
     "postinstall": "patch-package || echo 'patch skipped'",
     "rebuild:native:electron": "electron-rebuild -f -w @grandchef/node-printer",
@@ -45,30 +47,43 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "build": {
-    "appId": "com.example.printerproxy",
-    "productName": "Printer Proxy",
+    "appId": "com.virtualy.printer-proxy",
+    "productName": "Companion Vida Exame",
+    "directories": {
+      "output": "dist"
+    },
     "files": [
-      "dist-runtime/**/*",
       "dist-electron/**/*",
-      "public/**/*",
-      "scripts/**/*",
+      "dist-runtime/**/*",
+      "assets/**/*",
+      "node_modules/**/*",
+      "patches/**/*",
       "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/@grandchef/node-printer/**"
     ],
     "extraResources": [
       {
-        "from": "public/settings",
-        "to": "settings"
+        "from": "dist-runtime",
+        "to": "dist-runtime"
       }
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": true,
-      "perMachine": false,
       "allowToChangeInstallationDirectory": false,
-      "runAfterFinish": true
-    }
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": []
   }
 }
