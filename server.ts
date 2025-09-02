@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
-dotenv.config({ debug: true, path: __dirname + "\.env" });
+
+dotenv.config();
 
 import { startServer } from './src/runtime/server-core';
+
 startServer().catch(err => {
   console.error('Failed to start server:', err);
   process.exit(1);
