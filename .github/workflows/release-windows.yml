@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install --prefer-offline --no-audit --progress=false --loglevel=error
+        run: npm ci
 
       - name: Verify printer patch (optional)
         shell: bash
