@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import path from 'path';
 import PrinterManager from '../printing/printer-manager';
 import { requestLogger } from '../middleware/request-logger';
 import { errorHandler } from '../middleware/error-handler';
@@ -16,19 +15,7 @@ import { StartServerOptions, startServerOutput } from '../types';
 import { printingRouter } from '../endpoints/printing';
 import { PowerShellPromptProvider } from '../security/powershell-provider';
 import healthEndpoint from '../endpoints/health';
-
-function resolvePublicRoot() {
-  const baseDir = process.env.ELECTRON_DEV === '1'
-    ? process.cwd()
-    : process.cwd();
-
-  if (process.env.ELECTRON_DEV !== '1' && process.versions.electron) {
-    const resourcesPath = (process as any).resourcesPath || process.cwd();
-    return path.join(resourcesPath, 'app.asar', 'dist-runtime', 'public');
-  }
-
-  return path.join(baseDir, 'dist-runtime', 'public');
-}
+import { resolvePublicPath } from './paths';
 
 export async function startServer(opts: StartServerOptions = {}): Promise<startServerOutput> {
   setupGlobalExceptionLogging();
@@ -60,7 +47,7 @@ export async function startServer(opts: StartServerOptions = {}): Promise<startS
   app.use('/security', securityRouter(securityService));
   app.get('/health', healthEndpoint());
 
-  const staticRoot = path.join(resolvePublicRoot(), 'settings');
+  const staticRoot = resolvePublicPath('settings');
   app.use('/settings', express.static(staticRoot));
 
   app.get('/', (_req, res) => {

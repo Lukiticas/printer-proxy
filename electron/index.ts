@@ -1,22 +1,21 @@
 import fs from 'fs';
-import path from 'path';
 
 function writeEarly(line: string, data?: any) {
   try {
-    const base = process.env.APPDATA || process.cwd();
-    const earlyDir = path.join(base, 'PrinterProxyEarly');
+    const earlyDir = resolveEarlyLogPath();
 
     if (!fs.existsSync(earlyDir)) {
       fs.mkdirSync(earlyDir, { recursive: true });
     }
 
-    const f = path.join(earlyDir, 'early.log');
+    const f = resolveEarlyLogPath('early.log');
+
     const string = `[${new Date().toISOString()}] ${line}${data ? ' ' + JSON.stringify(data, null, 2) : ''}\n`;
 
     fs.appendFileSync(f, string);
     console.log(string);
   } catch (err: any) {
-    console.log('[writeEarly] failed', { line, error: err.message });
+    console.log('[writeEarly] failed', { line, error: err.message, data });
   }
 }
 
@@ -34,7 +33,7 @@ require('dotenv').config();
 
 import { app, Tray, Menu, shell, nativeImage, dialog, Notification } from 'electron';
 import { startServerOutput } from '../src/types';
-import { resolveAsset } from './asset-path';
+import { resolveAssetsPath, resolveEarlyLogPath, resolveLogPath, resolveScriptPath, resolveServerCorePath, resolveSettingsPath, resolveUserDataPath } from '../src/runtime/paths';
 
 const gotLock = app.requestSingleInstanceLock();
 
@@ -51,11 +50,8 @@ if (!gotLock) {
 }
 
 let trayRef: Tray | null = null;
-
 let tray: Tray | null = null;
 let serverHandle: startServerOutput | null = null;
-const isDevEnv = process.env.ELECTRON_DEV === '1';
-
 let startupLogFile: string | null = null;
 
 function logStartup(event: string, data?: any) {
@@ -77,32 +73,30 @@ function logStartup(event: string, data?: any) {
 
 function initStartupLogger() {
   try {
-    const userData = app.getPath('userData');
-    const logsDir = path.join(userData, 'logs');
+    const logsDir = resolveLogPath();
 
     if (!fs.existsSync(logsDir)) {
       fs.mkdirSync(logsDir, { recursive: true });
     }
 
-    startupLogFile = path.join(logsDir, 'startup.log');
+    startupLogFile = resolveLogPath('startup.log');
 
-    const earlyDir = path.join(process.env.APPDATA || process.cwd(), 'PrinterProxyEarly');
-    const earlyFile = path.join(earlyDir, 'early.log');
-
-    if (fs.existsSync(earlyFile)) {
-      const content = fs.readFileSync(earlyFile);
+    if (fs.existsSync(startupLogFile)) {
+      const content = fs.readFileSync(startupLogFile);
       fs.appendFileSync(startupLogFile, content);
     }
 
-    logStartup('logger-initialized', { userData, logsDir });
+    logStartup('logger-initialized', { startupLogFile, logsDir });
   } catch (e: any) {
     writeEarly('initStartupLogger-failed', { message: e.message });
   }
 }
 
-function ensureDirs(userData: string) {
-  const logDir = path.join(userData, 'logs');
-  const dataDir = path.join(userData, 'data');
+function ensureDirs() {
+  const logDir = resolveLogPath();
+  const dataDir = resolveUserDataPath();
+  const settingsDir = resolveSettingsPath();
+  const scriptsDir = resolveScriptPath();
 
   if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
@@ -112,27 +106,28 @@ function ensureDirs(userData: string) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
 
-  process.env.LOG_DIR = logDir;
-  process.env.DATA_DIR = dataDir;
-
-  return { logDir, dataDir };
-}
-
-function resolveServerCorePath(): string {
-  if (app.isPackaged) {
-    return path.join(
-      process.resourcesPath,
-      'app.asar',
-      'dist-runtime',
-      'src',
-      'runtime',
-      'server-core.js'
-    );
+  if (!fs.existsSync(settingsDir)) {
+    fs.mkdirSync(settingsDir, { recursive: true });
   }
 
-  return path.join(process.cwd(), 'dist-runtime', 'src', 'runtime', 'server-core.js');
-}
+  if (!fs.existsSync(scriptsDir)) {
+    fs.mkdirSync(scriptsDir, { recursive: true });
+  }
 
+  process.env.LOG_DIR = logDir;
+  process.env.DATA_DIR = dataDir;
+  process.env.SETTINGS_DIR = settingsDir;
+  process.env.SCRIPT_DIR = scriptsDir;
+
+  logStartup('dirs-ensured', { logDir, dataDir, settingsDir, scriptsDir });
+
+  return {
+    logDir,
+    dataDir,
+    scriptsDir,
+    settingsDir,
+  }
+}
 async function loadServerCore(): Promise<{ startServer: (opts?: any) => Promise<startServerOutput> }> {
   const serverCorePath = resolveServerCorePath();
   logStartup('server-core-resolve', { serverCorePath, isPackaged: app.isPackaged });
@@ -233,7 +228,7 @@ function buildMenu() {
 }
 
 async function createTray() {
-  const iconPath = resolveAsset('icon.ico');
+  const iconPath = resolveAssetsPath('icon.ico');
   const image = nativeImage.createFromPath(iconPath);
 
   if (image.isEmpty()) {
@@ -293,7 +288,7 @@ app.on('second-instance', (_event, argv, workingDir) => {
 
 async function bootstrap() {
   logStartup('bootstrap-start', {
-    isDevEnv,
+    is_electron_dev: process.env.ELECTRON_DEV === '1',
     versions: process.versions,
     cwd: process.cwd(),
     dirname: __dirname
@@ -308,9 +303,7 @@ async function bootstrap() {
     resourcesPath: process.resourcesPath
   });
 
-  const userData = app.getPath('userData');
-
-  ensureDirs(userData);
+  ensureDirs();
   testNativeModule();
 
   try {

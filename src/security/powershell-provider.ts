@@ -1,11 +1,11 @@
 import { spawn } from 'child_process';
-import path from 'path';
 import fs from 'fs';
 import { PromptProvider, PromptResult } from '../types';
 import { loggers } from '../logging/logger';
+import { resolveScriptPath } from '../runtime/paths';
 
-const SCRIPT_DIR = path.join(process.cwd(), 'scripts');
-const SCRIPT_PATH = path.join(SCRIPT_DIR, 'security-prompt.ps1');
+const SCRIPT_DIR = resolveScriptPath()
+const SCRIPT_PATH = resolveScriptPath('security-prompt.ps1');
 
 const PS_CONTENT = `#requires -Version 3
 Param(

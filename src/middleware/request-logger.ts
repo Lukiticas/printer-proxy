@@ -1,8 +1,7 @@
-import { Request, NextFunction } from 'express';
+import { NextFunction } from 'express';
 import { v4 as uuid } from 'uuid';
 import { loggers } from '../logging/logger';
 import { LoggedRequest, ResponseMetaTracking } from '../types';
-
 
 export function requestLogger() {
     return (req: LoggedRequest, res: ResponseMetaTracking, next: NextFunction) => {

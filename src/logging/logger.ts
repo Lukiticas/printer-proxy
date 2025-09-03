@@ -1,11 +1,10 @@
 import fs from 'fs';
-import path from 'path';
 import { createLogger, format, transports, Logger } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import { LoggerMap } from '../types';
+import { resolveLogPath } from '../runtime/paths';
 
 const {
-  LOG_DIR = 'logs',
   LOG_LEVEL = 'info',
   LOG_ROTATE = 'true',
   LOG_MAX_SIZE_MB = '10',
@@ -18,7 +17,7 @@ const ensureDir = (dir: string) => {
   }
 };
 
-ensureDir(LOG_DIR);
+ensureDir(resolveLogPath());
 
 const baseJsonFormat = format.combine(
   format.timestamp(),
@@ -39,12 +38,12 @@ const baseJsonFormat = format.combine(
 );
 
 function buildFileTransport(filename: string, level: string) {
-  const fullPath = path.join(LOG_DIR, filename);
+  const fullPath = resolveLogPath(filename);
 
   if (LOG_ROTATE === 'true') {
     return new DailyRotateFile({
       level,
-      dirname: LOG_DIR,
+      dirname: resolveLogPath(),
       filename: filename.replace(/\.log$/, '') + '-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       zippedArchive: false,

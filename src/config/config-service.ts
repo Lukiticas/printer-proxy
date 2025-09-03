@@ -8,23 +8,14 @@ import {
 } from './schema';
 import { loggers } from '../logging/logger';
 import { PartialSettingsInput, SettingsData } from '../types/schema';
+import { resolveSettingsPath } from '../runtime/paths';
 
 export class ConfigService {
   private filePath: string;
   private settings: SettingsData;
 
-  constructor(customPath?: string) {
-    const dataDir = customPath
-      ? path.dirname(customPath)
-      : (process.env.DATA_DIR
-        ? process.env.DATA_DIR
-        : path.join(process.cwd(), 'data'));
-
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-
-    this.filePath = customPath || path.join(dataDir, 'settings.json');
+  constructor() {
+    this.filePath = resolveSettingsPath('settings.json');
     this.settings = defaultSettings();
   }
 
@@ -178,7 +169,9 @@ export class ConfigService {
   }
 
   removeBlacklist(host: string) {
+    console.log('REMOVING FROM BLACKLIST', host);
     this.settings.security.blacklist = this.settings.security.blacklist.filter(h => h !== host);
+    console.log('IS NOW', this.settings.security.blacklist);
     this.save();
   }
 
