@@ -1,0 +1,129 @@
+name: Release Windows (Installer + Portable)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      manual_tag:
+        description: "Tag to build (ex: v0.1.0) – only used if you already pushed that tag."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    env:
+      NODE_VERSION: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --prefer-offline --no-audit --progress=false --loglevel=error
+
+      - name: Verify printer patch (optional)
+        shell: bash
+        run: |
+          grep -q "c++20" node_modules/@grandchef/node-printer/binding.gyp && echo "Patch OK" || echo "Patch NOT found (proceeding)"
+
+      - name: Build & Package (Windows)
+        run: npm run package:win
+
+      - name: Determine Version
+        id: pkg
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
+
+      - name: Collect Artifacts
+        id: artifacts
+        shell: bash
+        run: |
+          ls -1 dist > artifact-list.txt
+          echo "Artifacts:"
+          cat artifact-list.txt
+          echo "artifact_list<<EOF" >> $GITHUB_OUTPUT
+          cat artifact-list.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Generate SHA256 Checksums
+        shell: powershell
+        run: |
+          $out = @()
+          Get-ChildItem -Path dist -Filter *.exe | ForEach-Object {
+            $h = Get-FileHash $_.FullName -Algorithm SHA256
+            $out += "{0}  {1}" -f $h.Hash, $_.Name
+          }
+          $out | Out-File -Encoding ASCII dist\SHA256SUMS.txt
+          Get-Content dist\SHA256SUMS.txt
+
+      - name: Create (or Update) Release Notes
+        id: notes
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [ -z "$TAG" ] && [ -n "${{ github.event.inputs.manual_tag }}" ]; then
+            TAG="${{ github.event.inputs.manual_tag }}"
+          fi
+          PREV_TAG=$(git describe --tags --abbrev=0 "$(git rev-list --tags --skip=1 --max-count=1)" 2>/dev/null || echo "")
+          echo "Current tag: $TAG"
+          echo "Previous tag: $PREV_TAG"
+
+          if [ -n "$PREV_TAG" ]; then
+            echo "Generating diff from $PREV_TAG to $TAG"
+            COMMITS=$(git log --pretty=format:'- %s (%h)' "$PREV_TAG..$TAG")
+          else
+            COMMITS=$(git log --pretty=format:'- %s (%h)' -n 50)
+          fi
+
+          {
+            echo "## Release $TAG"
+            echo
+            echo "### Summary"
+            echo "First tagged release" 
+            echo
+            echo "### Changes"
+            echo "${COMMITS:-No commits found}"
+            echo
+            echo "### Checksums"
+            echo "\`\`\`"
+            cat dist/SHA256SUMS.txt
+            echo "\`\`\`"
+            echo
+            echo "_Built automatically via GitHub Actions_"
+          } > RELEASE_BODY.md
+
+          echo "release_body<<EOF" >> $GITHUB_OUTPUT
+          cat RELEASE_BODY.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create / Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+            tag_name: ${{ github.ref_name }}
+            name: Release ${{ steps.pkg.outputs.version }}
+            body: ${{ steps.notes.outputs.release_body }}
+            draft: false
+            prerelease: false
+            files: |
+              dist/*.exe
+              dist/SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Done
+        run: echo "Release completed for version ${{ steps.pkg.outputs.version }}"
