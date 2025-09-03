@@ -17,6 +17,19 @@ import { printingRouter } from '../endpoints/printing';
 import { PowerShellPromptProvider } from '../security/powershell-provider';
 import healthEndpoint from '../endpoints/health';
 
+function resolvePublicRoot() {
+  const baseDir = process.env.ELECTRON_DEV === '1'
+    ? process.cwd()
+    : process.cwd();
+
+  if (process.env.ELECTRON_DEV !== '1' && process.versions.electron) {
+    const resourcesPath = (process as any).resourcesPath || process.cwd();
+    return path.join(resourcesPath, 'app.asar', 'dist-runtime', 'public');
+  }
+
+  return path.join(baseDir, 'dist-runtime', 'public');
+}
+
 export async function startServer(opts: StartServerOptions = {}): Promise<startServerOutput> {
   setupGlobalExceptionLogging();
 
@@ -47,7 +60,7 @@ export async function startServer(opts: StartServerOptions = {}): Promise<startS
   app.use('/security', securityRouter(securityService));
   app.get('/health', healthEndpoint());
 
-  const staticRoot = path.join(process.cwd(), 'public', 'settings');
+  const staticRoot = path.join(resolvePublicRoot(), 'settings');
   app.use('/settings', express.static(staticRoot));
 
   app.get('/', (_req, res) => {

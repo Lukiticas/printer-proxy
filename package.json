@@ -1,10 +1,10 @@
 {
   "name": "elgin-printer-proxy",
   "description": "Proxy de Impressão para Impressoras Elgin",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "main": "dist-electron/electron/index.js",
-  "author": "You",
+  "author": "Virtualy.tech",
   "license": "MIT",
   "scripts": {
     "postinstall": "patch-package || echo 'patch skipped'",
@@ -12,25 +12,30 @@
     "rebuild:native:node": "node scripts/rebuild-node-printer-node.js",
     "ensure:native:electron": "node scripts/ensure-native.js electron",
     "ensure:native:node": "node scripts/ensure-native.js node",
-    "build:runtime": "tsc -p tsconfig.json",
+    "build:runtime": "tsc -p tsconfig.json && npm run copy:public",
     "build:electron": "tsc -p electron/tsconfig.electron.json",
     "build": "npm run build:runtime && npm run build:electron",
     "dev:electron": "npm run ensure:native:electron && npm run build && cross-env ELECTRON_DEV=1 electron dist-electron/electron/index.js",
     "dev:server": "npm run ensure:native:node && ts-node-dev --respawn --transpile-only server.ts",
-    "package": "npm run ensure:native:electron && npm run build && electron-builder"
+    "package:win": "npm run ensure:native:electron && npm run build && electron-builder --win nsis portable",
+    "package": "npm run package:win",
+    "clean": "rimraf dist-electron dist-runtime *.log && rimraf node_modules/@grandchef/node-printer/build",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "copy:public": "cpy public/**/* dist-runtime/public --parents"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
+    "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "electron": "37.4.0",
     "electron-builder": "26.0.12",
     "electron-rebuild": "3.2.9",
     "electronmon": "^2.0.3",
-    "node-windows": "^1.0.0-beta.8",
-    "patch-package": "^8.0.0",
+    "rimraf": "^5.0.10",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
   },
@@ -42,6 +47,8 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "node-windows": "^1.0.0-beta.8",
+    "patch-package": "^8.0.0",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
@@ -49,12 +56,10 @@
   "build": {
     "appId": "com.virtualy.printer-proxy",
     "productName": "Companion Vida Exame",
-    "directories": {
-      "output": "dist"
-    },
     "files": [
       "dist-electron/**/*",
       "dist-runtime/**/*",
+      "public/**/*",
       "assets/**/*",
       "node_modules/**/*",
       "patches/**/*",
@@ -64,26 +69,12 @@
     "asarUnpack": [
       "node_modules/@grandchef/node-printer/**"
     ],
-    "extraResources": [
-      {
-        "from": "dist-runtime",
-        "to": "dist-runtime"
-      }
-    ],
     "win": {
       "icon": "assets/icon.ico",
       "target": [
         "nsis",
         "portable"
-      ],
-      "artifactName": "${productName}-${version}-${arch}.${ext}"
-    },
-    "nsis": {
-      "oneClick": true,
-      "allowToChangeInstallationDirectory": false,
-      "perMachine": false,
-      "deleteAppDataOnUninstall": false
-    },
-    "publish": []
+      ]
+    }
   }
 }
