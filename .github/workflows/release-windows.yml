@@ -19,7 +19,8 @@ jobs:
   build-and-release:
     runs-on: windows-latest
     env:
-      NODE_VERSION: 20
+      NODE_VERSION: 20,
+      ELECTRON_BUILDER_SKIP_PUBLISH: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
