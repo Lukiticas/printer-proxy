@@ -3,7 +3,7 @@ import { ErrorResponse, SecurityListingResponse } from "../../types";
 import { loggers } from "../../logging/logger";
 import { SecurityService } from "../../security/security-service";
 
-export default function securityWhitelistEndpoint(security: SecurityService): RequestHandler {
+export default function securityBlacklistEndoint(security: SecurityService): RequestHandler {
   return async (req: Request, res: Response<SecurityListingResponse | ErrorResponse>) => {
     try {
       const host = security.normalizeHost(req.params.host);
@@ -14,11 +14,11 @@ export default function securityWhitelistEndpoint(security: SecurityService): Re
         host
       });
     } catch (e: any) {
-      loggers.api.error('SecurityWhitelistFailed', { error: e.message });
+      loggers.api.error('SecurityBlacklistFailed', { error: e.message });
 
       return res.status(500).json({
         success: false,
-        error: 'SecurityWhitelistFailed',
+        error: 'SecurityBlacklistFailed',
         timestamp: new Date().toISOString()
       });
     }
