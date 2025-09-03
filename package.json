@@ -6,6 +6,9 @@
   "main": "dist-electron/electron/index.js",
   "author": "Virtualy.tech",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19.4"
+  },
   "scripts": {
     "postinstall": "patch-package || echo 'patch skipped'",
     "rebuild:native:electron": "electron-rebuild -f -w @grandchef/node-printer",
