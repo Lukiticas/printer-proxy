@@ -20,7 +20,7 @@
     "build": "npm run build:runtime && npm run build:electron",
     "dev:electron": "npm run ensure:native:electron && npm run build && cross-env ELECTRON_DEV=1 electron dist-electron/electron/index.js",
     "dev:server": "npm run ensure:native:node && ts-node-dev --respawn --transpile-only server.ts",
-    "package:win": "npm run ensure:native:electron && npm run build && electron-builder --win nsis portable",
+    "package:win": "npm run ensure:native:electron && npm run build && electron-builder  --publish=never --win nsis portable",
     "package": "npm run package:win",
     "clean": "rimraf dist-electron dist-runtime *.log && rimraf node_modules/@grandchef/node-printer/build",
     "lint": "eslint .",
@@ -39,7 +39,6 @@
     "cross-env": "7.0.3",
     "electron": "37.4.0",
     "electron-builder": "26.0.12",
-    "electron-rebuild": "3.2.9",
     "electronmon": "2.0.3",
     "rimraf": "5.0.10",
     "ts-node-dev": "2.0.0",
@@ -60,6 +59,7 @@
     "winston-daily-rotate-file": "5.0.0"
   },
   "build": {
+    "publish": null,
     "appId": "com.virtualy.printer-proxy",
     "productName": "Companion Vida Exame",
     "files": [
