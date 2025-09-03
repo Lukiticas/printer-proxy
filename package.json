@@ -1,7 +1,7 @@
 {
   "name": "elgin-printer-proxy",
   "description": "Proxy de Impressão para Impressoras Elgin",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
   "main": "dist-electron/electron/index.js",
   "author": "Virtualy.tech",
@@ -22,7 +22,10 @@
     "clean": "rimraf dist-electron dist-runtime *.log && rimraf node_modules/@grandchef/node-printer/build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "copy:public": "cpy public/**/* dist-runtime/public --parents"
+    "copy:public": "cpy public/**/* dist-runtime/public --parents",
+    "release:patch": "npm version patch -m \"chore: release %s\"",
+    "release:minor": "npm version minor -m \"chore: release %s\"",
+    "release:major": "npm version major -m \"chore: release %s\""
   },
   "devDependencies": {
     "@types/body-parser": "1.19.6",
