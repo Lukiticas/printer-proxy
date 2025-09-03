@@ -7,7 +7,7 @@ import { LoggerMap } from '../types';
 const {
   LOG_DIR = 'logs',
   LOG_LEVEL = 'info',
-  LOG_ROTATE = 'false',
+  LOG_ROTATE = 'true',
   LOG_MAX_SIZE_MB = '10',
   LOG_MAX_FILES = '14d'
 } = process.env
@@ -76,7 +76,6 @@ function buildLogger(category: string, baseLevel = LOG_LEVEL): Logger {
                 : 'app.log',
         baseLevel
       ),
-
       new transports.Console({
         level: baseLevel,
         format: format.combine(
